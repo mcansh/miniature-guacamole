@@ -7,3 +7,5 @@ stylelint.config.js
 .eslintignore
 .eslintrc.js
 dist
+scripts
+!AuthKey.p8

@@ -17,13 +17,16 @@
   "routes": [
     {
       "src": "/api/token",
-      "dest": "packages/api/token.ts"
+      "dest": "packages/api/token.ts",
+      "headers": {
+        "cache-control": "s-maxage=2592000, max-age=0"
+      }
     },
     {
       "src": "/_next(/static/(?:[^/]+/pages|chunks|runtime)/.+)",
       "dest": "/packages/web/_next$1",
       "headers": {
-        "cache-control": "immutable,max-age=31536000"
+        "cache-control": "immutable, max-age=31536000"
       }
     },
     {
