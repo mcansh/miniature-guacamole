@@ -20,7 +20,11 @@ const nextConfig = {
 
   // actual next config
   crossOrigin: 'anonymous',
-  // target: 'serverless',
+  target: 'serverless',
+
+  env: {
+    VERSION: require('./package.json').version,
+  },
 };
 
 module.exports = withSourceMaps(withOffline(nextConfig));

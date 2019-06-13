@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { NowRequest, NowResponse } from '@now/node'
+import { NowRequest, NowResponse } from '@now/node';
 
 export default async (_req: NowRequest, res: NowResponse) => {
   const privateKey = `-----BEGIN PRIVATE KEY-----

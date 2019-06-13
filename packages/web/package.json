@@ -32,6 +32,7 @@
     "nookies": "2.0.6",
     "react": "16.8.6",
     "react-dom": "16.8.6",
+    "react-no-ssr": "1.1.0",
     "styled-components": "4.3.1",
     "type-fest": "0.5.2"
   },
@@ -39,6 +40,7 @@
     "@types/jsonwebtoken": "8.3.2",
     "@types/react": "16.8.19",
     "@types/react-dom": "16.8.4",
+    "@types/react-no-ssr": "1.1.1",
     "@types/styled-components": "4.1.16",
     "eslint-import-resolver-babel-plugin-root-import": "1.1.1",
     "eslint-import-resolver-typescript": "1.1.1",
