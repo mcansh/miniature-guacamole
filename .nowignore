@@ -1,0 +1,8 @@
+.next
+node_modules
+.travis.yml
+license.markdown
+readme.markdown
+stylelint.config.js
+.eslintignore
+.eslintrc.js

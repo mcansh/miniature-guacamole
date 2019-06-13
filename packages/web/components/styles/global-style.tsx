@@ -1,6 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
+  :root {
+    color-scheme: light dark;
+  }
+
   html {
     font-size: 10px;
     box-sizing: border-box;

@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "packages": [
+    "packages/*"
+  ],
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "command": {
+    "version": {
+      "exact": true,
+      "message": "%v",
+      "tagVersionPrefix": "",
+      "signGitCommit": true,
+      "gitTagVersion": true,
+      "signGitTag": true
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "miniature-gaucamole",
+  "version": 2,
+  "alias": [
+    "gauc.loganmcansh.com"
+  ],
+  "builds": [
+    {
+      "src": "packages/web/package.json",
+      "use": "@now/next"
+    },
+    {
+      "src": "packages/api/token.ts",
+      "use": "@now/node@canary"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/token",
+      "dest": "packages/api/token.ts"
+    },
+    {
+      "src": "/_next(/static/(?:[^/]+/pages|chunks|runtime)/.+)",
+      "dest": "/packages/web/_next$1",
+      "headers": {
+        "cache-control": "immutable,max-age=31536000"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "dest": "packages/web/$1"
+    }
+  ]
+}
