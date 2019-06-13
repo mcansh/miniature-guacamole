@@ -1,6 +1,7 @@
 import React from 'react';
 import fetch from 'isomorphic-unfetch';
 import Head from 'next/head';
+import Link from 'next/link';
 import { parseCookies } from 'nookies';
 import { NextPageContext } from 'next';
 import getHost from '~/utils/get-host';
@@ -32,11 +33,6 @@ interface Props {
   recentlyAddedFromServer: { data: RecentlyAddedItem[]; next: string };
   musicUserToken: string;
 }
-
-// interface State {
-//   recentlyAdded: { data: RecentlyAddedItem[]; next: string };
-// }
-
 const Index = ({ token, musicUserToken, recentlyAddedFromServer }: Props) => {
   const [recentlyAdded, setRecentlyAdded] = React.useState<{
     data: RecentlyAddedItem[];
@@ -47,7 +43,7 @@ const Index = ({ token, musicUserToken, recentlyAddedFromServer }: Props) => {
   });
 
   const loadMore = async (nextUrl: string) => {
-    const promise = await fetch(`https://api.music.apple.com${nextUrl}`, {
+    const promise = await fetch(`${process.env.MUSIC}${nextUrl}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Music-User-Token': musicUserToken,
@@ -79,7 +75,9 @@ const Index = ({ token, musicUserToken, recentlyAddedFromServer }: Props) => {
           grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
           grid-gap: 10px 20px;
 
-          div {
+          a {
+            color: inherit;
+            text-decoration: none;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -95,14 +93,16 @@ const Index = ({ token, musicUserToken, recentlyAddedFromServer }: Props) => {
       >
         {recentlyAdded.data.map(item => (
           <li key={item.id}>
-            <div>
-              <img
-                src={item.attributes.artwork.url.replace(/{w}|{h}/g, '600')}
-                alt={item.attributes.name}
-              />
-              <p>{item.attributes.name}</p>
-              <p>{item.attributes.artistName}</p>
-            </div>
+            <Link href="/albums/$id" as={`/albums/${item.id}`}>
+              <a>
+                <img
+                  src={item.attributes.artwork.url.replace(/{w}|{h}/g, '600')}
+                  alt={item.attributes.name}
+                />
+                <p>{item.attributes.name}</p>
+                <p>{item.attributes.artistName}</p>
+              </a>
+            </Link>
           </li>
         ))}
       </ul>
@@ -126,7 +126,7 @@ Index.getInitialProps = async (context: NextPageContext) => {
   }
 
   const recentPromise = await fetch(
-    'https://api.music.apple.com/v1/me/library/recently-added',
+    `${process.env.MUSIC}/v1/me/library/recently-added`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

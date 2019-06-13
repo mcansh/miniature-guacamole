@@ -21,9 +21,10 @@ const nextConfig = {
   // actual next config
   crossOrigin: 'anonymous',
   target: 'serverless',
-
+  experimental: { dynamicRouting: true },
   env: {
     VERSION: require('./package.json').version,
+    MUSIC: 'https://api.music.apple.com',
   },
 };
 

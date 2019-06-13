@@ -18,6 +18,10 @@ const Page = styled.div`
   h1 {
     margin-bottom: 2rem;
     font-size: 4rem;
+    text-align: center;
+    @media (max-width: 500px) {
+      font-size: 3.6rem;
+    }
   }
 
   h2 {
@@ -29,10 +33,11 @@ const Page = styled.div`
     border: none;
     background: linear-gradient(225deg, #e65f83 0%, #7d69fc 100%),
       linear-gradient(135deg, #f75b6c 0%, #3da2ed 100%);
-    border-radius: 4px;
+    border-radius: 0.8vw;
     font-size: 1.4rem;
     padding: 1.4rem 2.5rem;
     cursor: pointer;
+    color: white;
   }
 `;
 
