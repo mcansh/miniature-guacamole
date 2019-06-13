@@ -4,3 +4,4 @@ node_modules
 .next
 AuthKey.p8
 dist
+.env

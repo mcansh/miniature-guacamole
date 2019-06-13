@@ -1,10 +1,10 @@
-import fs from 'fs';
-import path from 'path';
 import jwt from 'jsonwebtoken';
-import {NowRequest, NowResponse} from '@now/node'
+import { NowRequest, NowResponse } from '@now/node'
 
 export default async (_req: NowRequest, res: NowResponse) => {
-  const privateKey = fs.readFileSync(path.join(__dirname, 'AuthKey.p8')).toString();
+  const privateKey = `-----BEGIN PRIVATE KEY-----
+${String(process.env.GUAC_AUTH_KEY)}
+-----END PRIVATE KEY-----`;
 
   const teamId = 'ZN48NS8HAP';
   const keyId = '238VDP8HGK';

@@ -4,9 +4,6 @@
   "alias": [
     "gauc.loganmcansh.com"
   ],
-  "github": {
-    "enabled": false
-  },
   "builds": [
     {
       "src": "packages/web/package.json",
