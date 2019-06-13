@@ -9,6 +9,9 @@
   },
   "author": "Logan McAnsh <logan@mcan.sh> (https://mcan.sh)",
   "license": "MIT",
+  "dependencies": {
+    "jsonwebtoken": "8.5.1"
+  },
   "devDependencies": {
     "@now/node": "0.8.1",
     "typescript": "3.5.1"
