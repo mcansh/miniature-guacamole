@@ -1,0 +1,16 @@
+{
+  "name": "@gauc/api",
+  "version": "1.0.0",
+  "main": "n/a",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcansh/miniature-gaucamole",
+    "directory": "packages/api"
+  },
+  "author": "Logan McAnsh <logan@mcan.sh> (https://mcan.sh)",
+  "license": "MIT",
+  "devDependencies": {
+    "@now/node": "0.8.1",
+    "typescript": "3.5.1"
+  }
+}
