@@ -4,6 +4,9 @@
   "alias": [
     "gauc.loganmcansh.com"
   ],
+  "env": {
+    "GUAC_AUTH_KEY": "@guac_auth_key"
+  },
   "builds": [
     {
       "src": "packages/web/package.json",
