@@ -10,6 +10,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "type-check": "yarn workspaces run tsc"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -19,7 +22,7 @@
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
       "sh scripts/ts-precommit.bash",
-      "yarn workspace @gauc/api lint:css",
+      "yarn workspace @gauc/web lint:css",
       "git add"
     ]
   },

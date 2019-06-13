@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "description": "Create a Next.js app easily",
   "main": "n/a",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/mcansh/miniature-gaucamole",

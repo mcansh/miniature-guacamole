@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   :root {
+    /* stylelint-disable-next-line property-no-unknown */
     color-scheme: light dark;
   }
 

@@ -6,3 +6,4 @@ readme.markdown
 stylelint.config.js
 .eslintignore
 .eslintrc.js
+dist
