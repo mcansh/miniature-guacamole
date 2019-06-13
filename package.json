@@ -11,6 +11,7 @@
     "packages/*"
   ],
   "scripts": {
+    "dev": "now dev -p 4000",
     "type-check": "yarn workspaces run tsc"
   },
   "husky": {
