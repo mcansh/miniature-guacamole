@@ -34,10 +34,10 @@
     "eslint-config-airbnb": "17.1.0",
     "eslint-config-kentcdodds": "14.3.3",
     "eslint-config-mcansh": "1.1.1",
-    "eslint-config-prettier": "4.3.0",
+    "eslint-config-prettier": "5.0.0",
     "eslint-plugin-prettier": "3.1.0",
     "husky": "2.4.1",
-    "lint-staged": "8.2.0",
+    "lint-staged": "8.2.1",
     "prettier": "1.18.2"
   }
 }
