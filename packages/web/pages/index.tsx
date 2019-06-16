@@ -1,11 +1,15 @@
 import React from 'react';
-import fetch from 'isomorphic-unfetch';
-import Head from 'next/head';
 import Link from 'next/link';
 import { parseCookies } from 'nookies';
 import { NextPageContext } from 'next';
 import getHost from '~/utils/get-host';
 import redirect from '~/utils/redirect';
+// @ts-ignore
+import { SimpleImg } from 'react-simple-img';
+import { ellipsis } from 'polished';
+import { fetchMusic } from '../utils/fetch';
+import Button from '~/components/styles/button';
+import { artworkForMediaItem } from '~/utils';
 
 interface RecentlyAddedItem {
   id: string;
@@ -29,11 +33,16 @@ interface RecentlyAddedItem {
 }
 
 interface Props {
-  token: string;
+  developerToken: string;
   recentlyAddedFromServer: { data: RecentlyAddedItem[]; next: string };
   musicUserToken: string;
 }
-const Index = ({ token, musicUserToken, recentlyAddedFromServer }: Props) => {
+
+const Index = ({
+  developerToken,
+  musicUserToken,
+  recentlyAddedFromServer,
+}: Props) => {
   const [recentlyAdded, setRecentlyAdded] = React.useState<{
     data: RecentlyAddedItem[];
     next: string;
@@ -43,12 +52,7 @@ const Index = ({ token, musicUserToken, recentlyAddedFromServer }: Props) => {
   });
 
   const loadMore = async (nextUrl: string) => {
-    const promise = await fetch(`${process.env.MUSIC}${nextUrl}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Music-User-Token': musicUserToken,
-      },
-    });
+    const promise = await fetchMusic(nextUrl, developerToken, musicUserToken);
 
     const items = await promise.json();
 
@@ -60,84 +64,113 @@ const Index = ({ token, musicUserToken, recentlyAddedFromServer }: Props) => {
 
   return (
     <>
-      <Head>
-        <title>hello</title>
-      </Head>
       <ul
         css={`
-          padding: 0;
-          list-style: none;
-          margin: 0 auto;
-          max-width: 520px;
-          justify-content: center;
-          align-items: center;
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-          grid-gap: 10px 20px;
+          grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+          grid-gap: 3rem;
+          padding: 0;
+          margin: 0 auto;
+          list-style: none;
+          max-width: 700px;
+          width: 100%;
 
           a {
-            color: inherit;
+            font-size: 1.6rem;
+            color: black;
             text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-          }
-
-          img {
-            width: 100%;
-            display: block;
-            margin-bottom: 1rem;
           }
         `}
       >
         {recentlyAdded.data.map(item => (
           <li key={item.id}>
-            <Link href="/albums/$id" as={`/albums/${item.id}`}>
-              <a>
-                <img
-                  src={item.attributes.artwork.url.replace(/{w}|{h}/g, '600')}
-                  alt={item.attributes.name}
-                />
-                <p>{item.attributes.name}</p>
-                <p>{item.attributes.artistName}</p>
-              </a>
-            </Link>
+            <div>
+              <Link href="/albums/$id" as={`/albums/${item.id}`}>
+                <a>
+                  <SimpleImg
+                    height="100%"
+                    width="100%"
+                    placeholder={artworkForMediaItem(undefined, 600)}
+                    src={item.attributes.artwork.url.replace(/{w}|{h}/g, '600')}
+                    alt={item.attributes.name}
+                    srcSet={`
+                      ${artworkForMediaItem(item, 50)} 50w,
+                      ${artworkForMediaItem(item, 100)} 100w,
+                      ${artworkForMediaItem(item, 200)} 200w,
+                      ${artworkForMediaItem(item, 300)} 300w,
+                      ${artworkForMediaItem(item, 600)} 600w,
+                      ${artworkForMediaItem(item, 800)} 800w,
+                      ${artworkForMediaItem(item, 1200)} 1200w,
+                      ${artworkForMediaItem(item, 1600)} 1600w,
+                      ${artworkForMediaItem(item, 1800)} 1800w,
+                      ${artworkForMediaItem(item, 2000)} 2000w,
+                      ${artworkForMediaItem(item, 2400)} 2400w,
+                      ${artworkForMediaItem(item, 3000)} 3000w,
+                    `}
+                    sizes="(max-width: 3000px) 100vw, 3000px"
+                  />
+                  <p style={{ ...ellipsis('90%'), marginTop: '1rem' }}>{item.attributes.name}</p>
+                  <p>{item.attributes.artistName}</p>
+                </a>
+              </Link>
+            </div>
           </li>
         ))}
       </ul>
-      <pre>{JSON.stringify(recentlyAdded, null, 2)}</pre>
-      <button type="button" onClick={() => loadMore(recentlyAdded.next)}>
+      <Button
+        type="button"
+        onClick={() => loadMore(recentlyAdded.next)}
+        css={`
+          margin: 2rem auto;
+        `}
+      >
         Load more
-      </button>
+      </Button>
+      {/* <pre>{JSON.stringify(recentlyAdded, null, 2)}</pre> */}
     </>
   );
 };
 
 Index.getInitialProps = async (context: NextPageContext) => {
+  // 1. fetch the jwt for apple music
   const host = getHost(context.req);
   const url = `${host}/token`;
   const promise = await fetch(url);
   const { token } = await promise.json();
+  // 2. check if the user is logged in
   const { musicUserToken } = parseCookies(context);
 
   if (!musicUserToken) {
-    redirect(context.res, 302, '/login');
+    return redirect(context.res, 302, '/login');
   }
 
-  const recentPromise = await fetch(
-    `${process.env.MUSIC}/v1/me/library/recently-added`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Music-User-Token': musicUserToken,
-      },
-    }
+  // 3. fetch the most recent 30 added things
+  const offsets = [
+    '/v1/me/library/recently-added',
+    '/v1/me/library/recently-added?offset=10',
+    '/v1/me/library/recently-added?offset=20',
+  ];
+
+  const musicPromises = await Promise.all(
+    offsets.map(async offset =>
+      fetchMusic(offset, token, musicUserToken).then(r => r.json())
+    )
   );
 
-  const recentlyAddedFromServer = await recentPromise.json();
+  // 4. merge all that data
+  const recentlyAddedFromServer = musicPromises.reduce(
+    (acc, cur) => ({
+      data: [...acc.data, ...cur.data],
+      next: cur.next,
+    }),
+    { data: [], next: '/v1/me/library/recently-added?offset=30' }
+  );
 
-  return { token, recentlyAddedFromServer, musicUserToken };
+  return {
+    developerToken: token,
+    recentlyAddedFromServer,
+    musicUserToken,
+  };
 };
 
 export default Index;
