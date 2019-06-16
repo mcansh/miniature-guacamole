@@ -10,7 +10,9 @@ module.exports = {
   },
   settings: {
     typescript: {},
-    'import/resolver': { 'babel-plugin-root-import': {} },
+    'import/resolver': {
+      'babel-plugin-root-import': {},
+    },
     'import/parsers': { '@typescript-eslint/parser': ['.ts', '.tsx'] },
   },
 };

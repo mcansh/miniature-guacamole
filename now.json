@@ -5,24 +5,44 @@
     "gauc.loganmcansh.com"
   ],
   "env": {
-    "GUAC_AUTH_KEY": "@guac_auth_key"
+    "GUAC_AUTH_KEY": "@guac_auth_key",
+    "SENTRY": "https://9ce1145ae4fa40a1bfc13806d273566d@sentry.io/1481617"
   },
   "builds": [
     {
       "src": "packages/web/package.json",
-      "use": "@now/next"
+      "use": "@now/next@canary"
     },
     {
-      "src": "packages/api/token.ts",
+      "src": "packages/api/*.ts",
       "use": "@now/node@canary"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/packages/api/$1.ts"
+    },
+    {
       "src": "/api/token",
-      "dest": "packages/api/token.ts",
       "headers": {
         "cache-control": "s-maxage=2592000, max-age=0"
+      }
+    },
+    {
+      "src": "/manifest.webmanifest",
+      "dest": "/packages/web/manifest.webmanifest",
+      "headers": {
+        "content-type": "application/manifest+json",
+        "cache-control": "public, s-maxage=43200, max-age=0, immutable"
+      }
+    },
+    {
+      "src": "/sw.js",
+      "dest": "/packages/web/_next/static/sw.js",
+      "headers": {
+        "cache-control": "public, s-maxage=0, max-age=0, must-revalidate",
+        "Service-Worker-Allowed": "/"
       }
     },
     {

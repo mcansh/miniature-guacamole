@@ -25,6 +25,7 @@ const nextConfig = {
   env: {
     VERSION: require('./package.json').version,
     MUSIC: 'https://api.music.apple.com',
+    SENTRY: process.env.SENTRY,
   },
 };
 
