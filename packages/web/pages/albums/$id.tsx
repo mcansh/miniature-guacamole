@@ -5,9 +5,13 @@ import { parseCookies } from 'nookies';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
 import ms from 'ms';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay, faRandom } from '@fortawesome/free-solid-svg-icons';
+
 import { fetchMusic } from '../../utils/fetch';
 import redirect from '../../utils/redirect';
 import getHost from '../../utils/get-host';
+import { ShuffleModeSongs } from '~/utils';
 
 function fmtMSS(input: number) {
   const minutes = Math.floor(input / 60);
@@ -203,6 +207,11 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
     await music.play();
   };
 
+  const playShuffledAlbum = async () => {
+    music.player.shuffleMode = ShuffleModeSongs;
+    await playAlbum();
+  };
+
   return (
     <AlbumPage>
       <header>
@@ -214,21 +223,32 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
         <div>
           <h1>{album.data.attributes.name}</h1>
           <h2>{album.data.attributes.artistName}</h2>
-          <button
+          <div
             css={`
-              background: #a550a7;
-              border: none;
-              padding: 0.5rem 2rem;
-              margin: 0;
-              color: white;
-              border-radius: 4px;
-              line-height: 1;
+              margin-top: 2rem;
+
+              button {
+                background: #a550a7;
+                border: none;
+                padding: 0.5rem 2rem;
+                margin: 0;
+                color: white;
+                border-radius: 4px;
+                line-height: 1;
+                cursor: pointer;
+                &:first-of-type {
+                  margin-right: 1rem;
+                }
+              }
             `}
-            type="button"
-            onClick={playAlbum}
           >
-            &#9658; Play
-          </button>
+            <button type="button" onClick={playAlbum}>
+              <FontAwesomeIcon icon={faPlay} /> Play
+            </button>
+            <button type="button" onClick={playShuffledAlbum}>
+              <FontAwesomeIcon icon={faRandom} /> Shuffle
+            </button>
+          </div>
         </div>
       </header>
       <ol>
