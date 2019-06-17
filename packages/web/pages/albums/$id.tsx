@@ -292,7 +292,6 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
             }
           `}
         >
-          {/* <img src={} */}
           <progress value={time / duration} />
           <div>
             <span>{fmtMSS(time)}</span>
@@ -311,21 +310,25 @@ Album.getInitialProps = async context => {
   const url = `${host}/token`;
   const tokenPromise = await fetch(url);
   const { token } = await tokenPromise.json();
-  const { musicUserToken } = parseCookies(context);
+  const { bXVzaWMuem40OG5zOGhhcC51 } = parseCookies(context);
 
-  if (!musicUserToken) {
+  if (!bXVzaWMuem40OG5zOGhhcC51) {
     redirect(context.res, 302, '/login');
   }
 
   const promise = await fetchMusic(
     `/v1/me/library/albums/${id}`,
     token,
-    musicUserToken
+    bXVzaWMuem40OG5zOGhhcC51
   );
 
   const album = await promise.json();
 
-  return { token, album: { data: album.data[0] }, musicUserToken };
+  return {
+    token,
+    album: { data: album.data[0] },
+    musicUserToken: bXVzaWMuem40OG5zOGhhcC51,
+  };
 };
 
 export default Album;

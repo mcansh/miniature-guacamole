@@ -2,7 +2,7 @@ import React from 'react';
 import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 import { NextPage } from 'next';
-import { parseCookies, setCookie } from 'nookies';
+import { parseCookies } from 'nookies';
 import getHost from '~/utils/get-host';
 import redirect from '~/utils/redirect';
 import Button from '~/components/styles/button';
@@ -37,8 +37,7 @@ interface LoginProps {
 const Login: NextPage<LoginProps> = ({ MusicKit }: LoginProps) => {
   const authorize = async () => {
     const music = MusicKit.getInstance();
-    const musicUserToken = await music.authorize();
-    setCookie({}, 'musicUserToken', musicUserToken, undefined);
+    await music.authorize();
     redirect(undefined, 302, '/');
   };
 
@@ -60,8 +59,8 @@ const Login: NextPage<LoginProps> = ({ MusicKit }: LoginProps) => {
 
 // @ts-ignore
 Login.getInitialProps = async context => {
-  const { musicUserToken } = parseCookies(context);
-  if (musicUserToken) {
+  const { bXVzaWMuem40OG5zOGhhcC51 } = parseCookies(context);
+  if (bXVzaWMuem40OG5zOGhhcC51) {
     redirect(context.res, 302, '/');
   }
   const host = getHost(context.req);
@@ -69,7 +68,7 @@ Login.getInitialProps = async context => {
   const promise = await fetch(url);
   const { token } = await promise.json();
 
-  return { developerToken: token };
+  return { developerToken: token, musicUserToken: bXVzaWMuem40OG5zOGhhcC51 };
 };
 
 export default Login;

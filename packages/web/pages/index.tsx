@@ -109,7 +109,9 @@ const Index = ({
                     `}
                     sizes="(max-width: 3000px) 100vw, 3000px"
                   />
-                  <p style={{ ...ellipsis('90%'), marginTop: '1rem' }}>{item.attributes.name}</p>
+                  <p style={{ ...ellipsis('90%'), marginTop: '1rem' }}>
+                    {item.attributes.name}
+                  </p>
                   <p>{item.attributes.artistName}</p>
                 </a>
               </Link>
@@ -138,9 +140,9 @@ Index.getInitialProps = async (context: NextPageContext) => {
   const promise = await fetch(url);
   const { token } = await promise.json();
   // 2. check if the user is logged in
-  const { musicUserToken } = parseCookies(context);
+  const { bXVzaWMuem40OG5zOGhhcC51 } = parseCookies(context);
 
-  if (!musicUserToken) {
+  if (!bXVzaWMuem40OG5zOGhhcC51) {
     return redirect(context.res, 302, '/login');
   }
 
@@ -153,7 +155,7 @@ Index.getInitialProps = async (context: NextPageContext) => {
 
   const musicPromises = await Promise.all(
     offsets.map(async offset =>
-      fetchMusic(offset, token, musicUserToken).then(r => r.json())
+      fetchMusic(offset, token, bXVzaWMuem40OG5zOGhhcC51).then(r => r.json())
     )
   );
 
@@ -169,7 +171,7 @@ Index.getInitialProps = async (context: NextPageContext) => {
   return {
     developerToken: token,
     recentlyAddedFromServer,
-    musicUserToken,
+    musicUserToken: bXVzaWMuem40OG5zOGhhcC51,
   };
 };
 

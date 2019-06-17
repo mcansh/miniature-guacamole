@@ -1,9 +1,9 @@
 import React from 'react';
 import App, { Container, AppContext } from 'next/app';
 import * as Sentry from '@sentry/browser';
+import Head from 'next/head';
 
 import Layout from '~/components/layout';
-import Head from 'next/head';
 
 Sentry.init({
   dsn: process.env.SENTRY,
@@ -32,10 +32,11 @@ class MyApp extends App {
   componentDidMount = () => {
     window.MusicKit.configure({
       developerToken: this.props.pageProps.developerToken,
+      persist: 'cookie',
       app: {
         name: 'Miniature Guacamole 🥑',
         build: process.env.VERSION,
-        icon: 'http://localhost:4000/static/default.jpeg',
+        icon: '/favicon.png',
       },
     });
 
