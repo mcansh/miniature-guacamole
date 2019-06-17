@@ -2,7 +2,7 @@
   "name": "miniature-gaucamole",
   "version": 2,
   "alias": [
-    "gauc.loganmcansh.com"
+    "guac.loganmcansh.com"
   ],
   "env": {
     "GUAC_AUTH_KEY": "@guac_auth_key",
