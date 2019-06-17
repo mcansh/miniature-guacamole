@@ -15,7 +15,7 @@
     },
     {
       "src": "packages/api/*.ts",
-      "use": "@now/node@canary"
+      "use": "@now/node"
     }
   ],
   "routes": [
