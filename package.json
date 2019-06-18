@@ -1,7 +1,7 @@
 {
   "name": "miniature-guacamole",
   "version": "1.0.0",
-  "description": "Apple Music Next.js app",
+  "description": "an Apple Music web player built with Next.js and MusicKit",
   "main": "now.json",
   "repository": "https://github.com/mcansh/miniature-guacamole",
   "author": "Logan McAnsh <logan@mcan.sh> (https://mcan.sh)",

@@ -1,7 +1,7 @@
 {
   "name": "@gauc/web",
-  "version": "3.0.0",
-  "description": "Create a Next.js app easily",
+  "version": "1.0.0",
+  "description": "an Apple Music web player built with Next.js and MusicKit",
   "main": "n/a",
   "license": "MIT",
   "repository": {
