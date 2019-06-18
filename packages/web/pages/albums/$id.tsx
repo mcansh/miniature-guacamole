@@ -8,10 +8,8 @@ import ms from 'ms';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faRandom } from '@fortawesome/free-solid-svg-icons';
 
-import { fetchMusic } from '../../utils/fetch';
-import redirect from '../../utils/redirect';
-import getHost from '../../utils/get-host';
-import { ShuffleModeSongs } from '~/utils';
+import { Album as AlbumType, Track } from '~/types';
+import { ShuffleModeSongs, redirect, getHost, fetchMusic } from '~/utils';
 
 function fmtMSS(input: number) {
   const minutes = Math.floor(input / 60);
@@ -90,63 +88,8 @@ const AlbumPage = styled.div`
   }
 `;
 
-interface Track {
-  id: string;
-  type: string;
-  href: string;
-  attributes: {
-    name: string;
-    trackNumber: number;
-    durationInMillis: number;
-    playParams: {
-      id: string;
-      kind: string;
-      isLibrary: true;
-      reporting: true;
-      catalogId: string;
-    };
-    artwork: {
-      width: number;
-      height: number;
-      url: string;
-    };
-    artistName: string;
-    contentRating: string;
-    albumName: string;
-  };
-}
-
-interface Album {
-  data: {
-    id: string;
-    type: string;
-    href: string;
-    attributes: {
-      name: string;
-      trackCount: number;
-      playParams: {
-        id: string;
-        kind: string;
-        isLibrary: boolean;
-      };
-      artwork: {
-        width: number;
-        height: number;
-        url: string;
-      };
-      artistName: string;
-    };
-    relationships: {
-      tracks: {
-        data: Track[];
-        href: string;
-      };
-    };
-  };
-}
-
 interface Props {
-  album: Album;
+  album: AlbumType;
   token: string;
   musicUserToken: string;
   MusicKit: any;
@@ -238,6 +181,11 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
                 cursor: pointer;
                 &:first-of-type {
                   margin-right: 1rem;
+                }
+
+                svg {
+                  width: 1.25rem !important;
+                  height: 1.25rem !important;
                 }
               }
             `}

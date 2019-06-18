@@ -2,14 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 import { parseCookies } from 'nookies';
 import { NextPageContext } from 'next';
-import getHost from '~/utils/get-host';
-import redirect from '~/utils/redirect';
 // @ts-ignore
 import { SimpleImg } from 'react-simple-img';
 import { ellipsis } from 'polished';
-import { fetchMusic } from '../utils/fetch';
+
 import Button from '~/components/styles/button';
-import { artworkForMediaItem } from '~/utils';
+import { artworkForMediaItem, getHost, redirect, fetchMusic } from '~/utils';
 
 interface RecentlyAddedItem {
   id: string;

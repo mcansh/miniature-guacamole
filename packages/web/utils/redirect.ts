@@ -22,4 +22,4 @@ const redirect = (
   }
 };
 
-export default redirect;
+export { redirect };

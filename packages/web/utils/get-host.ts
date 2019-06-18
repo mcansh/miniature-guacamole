@@ -29,4 +29,4 @@ function getHost(req?: IncomingMessage) {
   return `${protocol}//${host}/api`;
 }
 
-export default getHost;
+export { getHost };

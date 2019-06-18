@@ -3,8 +3,7 @@ import fetch from 'isomorphic-unfetch';
 import styled from 'styled-components';
 import { NextPage } from 'next';
 import { parseCookies } from 'nookies';
-import getHost from '~/utils/get-host';
-import redirect from '~/utils/redirect';
+import { redirect, getHost } from '~/utils';
 import Button from '~/components/styles/button';
 
 const Page = styled.div`
