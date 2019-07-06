@@ -121,7 +121,7 @@ const Index = ({
         type="button"
         onClick={() => loadMore(recentlyAdded.next)}
         css={`
-          margin: 2rem auto;
+          margin: 2rem auto 7rem;
         `}
       >
         Load more
