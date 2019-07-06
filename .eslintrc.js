@@ -33,5 +33,15 @@ module.exports = {
     'arrow-body-style': ['error', 'as-needed'],
     'jsx-a11y/label-has-for': 'off', // Deprecated in 6.1.0 in favor of `jsx-a11y/label-has-associated-control`
     'jsx-a11y/label-has-associated-control': 'error',
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: [
+          'types/jest-dom.d.ts',
+          'test-utils/index.tsx',
+          'pages/api/token.ts',
+        ],
+      },
+    ],
   },
 };
