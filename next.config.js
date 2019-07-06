@@ -1,5 +1,6 @@
 const withSourceMaps = require('@zeit/next-source-maps')();
 const withOffline = require('next-offline');
+const pkg = require('./package.json');
 
 const nextConfig = {
   // service worker
@@ -23,7 +24,8 @@ const nextConfig = {
   target: 'serverless',
   experimental: { dynamicRouting: true },
   env: {
-    VERSION: require('./package.json').version,
+    VERSION: pkg.version,
+    DESCRIPTION: pkg.description,
     MUSIC: 'https://api.music.apple.com',
     SENTRY: process.env.SENTRY,
   },

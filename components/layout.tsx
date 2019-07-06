@@ -2,6 +2,8 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import Head from 'next/head';
 import theme from '~/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPause, faForward, faPlay } from '@fortawesome/free-solid-svg-icons';
 import GlobalStyle from './styles/global-style';
 
 const icons = [
@@ -24,9 +26,10 @@ const icons = [
 
 interface LayoutProps {
   children: React.ReactNode;
+  MusicKit: any;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children, MusicKit }: LayoutProps) => {
   React.useEffect(() => {
     if (process.env.NODE_ENV === 'production') {
       if ('serviceWorker' in navigator) {
@@ -37,6 +40,26 @@ const Layout = ({ children }: LayoutProps) => {
       }
     }
   }, []);
+
+  const music = MusicKit && MusicKit.getInstance();
+
+  const playbackStateDidChange = (data: any) => {
+    console.log(data);
+  };
+
+  React.useEffect(() => {
+    if (music) {
+      music.addEventListener(
+        MusicKit.Events.playbackStateDidChange,
+        playbackStateDidChange
+      );
+      return () =>
+        music.removeEventListener(
+          MusicKit.Events.playbackStateDidChange,
+          playbackStateDidChange
+        );
+    }
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -85,6 +108,54 @@ const Layout = ({ children }: LayoutProps) => {
         </Head>
         <GlobalStyle />
         {children}
+        {music && music.player.queue.length > 0 && (
+          <footer
+            css={`
+              width: 100%;
+              position: fixed;
+              bottom: 0;
+              left: 0;
+              backdrop-filter: blur(10px);
+              background: rgba(255, 255, 255, 0.8);
+              padding: 0.5rem 1rem;
+              display: flex;
+              align-items: center;
+
+              div {
+              }
+
+              img {
+                width: 5.5rem;
+                height: 5.5rem;
+                border-radius: 0.8vw;
+                margin-right: 1rem;
+              }
+
+              p {
+                font-size: 1.6rem;
+              }
+            `}
+          >
+            <img
+              src={music.player.nowPlayingItem.artworkURL}
+              alt={music.player.nowPlayingItem.attributes.name}
+            />
+            <p>{music.player.nowPlayingItem.attributes.name}</p>
+            <div>
+              <button
+                type="button"
+                onClick={async () =>
+                  music.player.isPlaying ? music.pause() : music.play()
+                }
+              >
+                <FontAwesomeIcon
+                  icon={music.player.isPlaying ? faPause : faPlay}
+                />
+              </button>
+              <FontAwesomeIcon icon={faForward} />
+            </div>
+          </footer>
+        )}
       </>
     </ThemeProvider>
   );

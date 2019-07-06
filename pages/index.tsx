@@ -126,7 +126,6 @@ const Index = ({
       >
         Load more
       </Button>
-      {/* <pre>{JSON.stringify(recentlyAdded, null, 2)}</pre> */}
     </>
   );
 };

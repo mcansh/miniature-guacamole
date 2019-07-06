@@ -6,22 +6,37 @@ import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
 import ms from 'ms';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faRandom } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPlay,
+  faRandom,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
 
 import { Album as AlbumType, Track } from '~/types';
 import { ShuffleModeSongs, redirect, getHost, fetchMusic } from '~/utils';
-
-function fmtMSS(input: number) {
-  const minutes = Math.floor(input / 60);
-  const seconds = String(input - minutes * 60).padStart(2, '0');
-  return `${minutes}:${seconds}`;
-}
+import Link from 'next/link';
 
 const AlbumPage = styled.div`
-  padding-top: 1rem;
   max-width: 520px;
   width: 100%;
   margin: 0 auto;
+  padding-top: 7.4rem;
+
+  nav {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-size: 2rem;
+    padding: 2rem;
+    a {
+      color: #e94b63;
+      text-decoration: none;
+    }
+  }
+
   header {
     display: flex;
 
@@ -32,10 +47,6 @@ const AlbumPage = styled.div`
       object-fit: contain;
       margin-right: 1rem;
       border-radius: 0.8vw;
-    }
-
-    h1 {
-      margin-bottom: 1rem;
     }
   }
 
@@ -51,7 +62,6 @@ const AlbumPage = styled.div`
 
       button {
         border: none;
-        border-bottom: 1px solid #494949;
         ${ellipsis('90%')};
         display: flex;
         align-items: center;
@@ -59,22 +69,6 @@ const AlbumPage = styled.div`
         padding: 1.6rem 0;
         background: none;
         cursor: pointer;
-
-        &::after {
-          content: attr(data-explicit);
-          display: inline-flex;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          width: 1.4rem;
-          height: 1.4rem;
-          font-size: 1rem;
-          border-radius: 2px;
-          line-height: 1;
-          margin-left: 0.5rem;
-          background: #a8a8a8;
-          color: white;
-        }
       }
 
       &::before {
@@ -85,6 +79,11 @@ const AlbumPage = styled.div`
         margin-right: 0.5rem;
       }
     }
+  }
+
+  .metadata {
+    font-size: 1.6rem;
+    color: #898a8e;
   }
 `;
 
@@ -102,31 +101,6 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
     0
   );
   const music = MusicKit.getInstance();
-
-  const [time, setTime] = React.useState(0);
-  const [duration, setDuration] = React.useState(0);
-
-  React.useEffect(() => {
-    const playbackTimeDidChange = (data: any) => {
-      setTime(data.currentPlaybackTime);
-      setDuration(data.currentPlaybackDuration);
-    };
-    if (music) {
-      music.addEventListener(
-        MusicKit.Events.playbackTimeDidChange,
-        playbackTimeDidChange
-      );
-    }
-
-    return () => {
-      if (music) {
-        music.removeEventListener(
-          MusicKit.Events.playbackTimeDidChange,
-          playbackTimeDidChange
-        );
-      }
-    };
-  });
 
   const playSong = async (track: Track) => {
     if (
@@ -157,25 +131,33 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
 
   return (
     <AlbumPage>
+      <nav>
+        <Link href="/">
+          <a>
+            <FontAwesomeIcon icon={faChevronLeft}></FontAwesomeIcon> Library
+          </a>
+        </Link>
+      </nav>
       <header>
-        <p data-apple-music-now-playing></p>
         <img
           src={album.data.attributes.artwork.url.replace(/{w}|{h}/g, '600')}
           alt={album.data.attributes.name}
         />
         <div>
           <h1>{album.data.attributes.name}</h1>
-          <h2>{album.data.attributes.artistName}</h2>
+          <h2 style={{ color: '#e94b63' }}>
+            {album.data.attributes.artistName}
+          </h2>
           <div
             css={`
               margin-top: 2rem;
 
               button {
-                background: #a550a7;
+                background: #f1f2f6;
                 border: none;
                 padding: 0.5rem 2rem;
                 margin: 0;
-                color: white;
+                color: #e94b63;
                 border-radius: 4px;
                 line-height: 1;
                 cursor: pointer;
@@ -202,51 +184,16 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
       <ol>
         {album.data.relationships.tracks.data.map((track: any) => (
           <li key={track.id} data-track={track.attributes.trackNumber}>
-            <button
-              data-explicit={
-                track.attributes.contentRating === 'explicit' ? 'E' : ''
-              }
-              type="button"
-              onClick={() => {
-                playSong(track);
-              }}
-            >
+            <button type="button" onClick={() => playSong(track)}>
               {track.attributes.name}
             </button>
           </li>
         ))}
       </ol>
-      <p>
+      <p className="metadata">
         {album.data.attributes.trackCount} songs,{' '}
         {ms(albumDuration, { long: true })}
       </p>
-
-      {music.player.queue.length > 0 && (
-        <footer
-          css={`
-            width: 100%;
-
-            div {
-              display: flex;
-              justify-content: space-between;
-            }
-
-            progress {
-              appearance: none;
-              border-radius: 2px;
-              overflow: hidden;
-              height: 4px;
-              width: 100%;
-            }
-          `}
-        >
-          <progress value={time / duration} />
-          <div>
-            <span>{fmtMSS(time)}</span>
-            <span>{fmtMSS(duration)}</span>
-          </div>
-        </footer>
-      )}
     </AlbumPage>
   );
 };

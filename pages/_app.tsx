@@ -62,7 +62,7 @@ class MyApp extends App {
         <Head>
           <script src="https://js-cdn.music.apple.com/musickit/v1/musickit.js" />
         </Head>
-        <Layout>
+        <Layout MusicKit={MusicKit}>
           <Component {...pageProps} MusicKit={MusicKit} />
         </Layout>
       </Container>
