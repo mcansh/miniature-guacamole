@@ -18,5 +18,6 @@ ${String(process.env.GUAC_AUTH_KEY)}
     },
   });
 
-  return res.json({ token: jwtToken });
+  res.setHeader('content-type', 'application/json');
+  return res.end(JSON.stringify({ token: jwtToken }));
 };
