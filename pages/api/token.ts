@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { NowRequest, NowResponse } from '@now/node';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async (_req: NowRequest, res: NowResponse) => {
+export default async (_req: NextApiRequest, res: NextApiResponse) => {
   const privateKey = `-----BEGIN PRIVATE KEY-----
 ${String(process.env.GUAC_AUTH_KEY)}
 -----END PRIVATE KEY-----`;
@@ -18,5 +18,5 @@ ${String(process.env.GUAC_AUTH_KEY)}
     },
   });
 
-  res.json({ token: jwtToken });
+  return res.json({ token: jwtToken });
 };
