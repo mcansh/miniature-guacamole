@@ -2,6 +2,7 @@ import React from 'react';
 import { ellipsis } from 'polished';
 import { NextPage } from 'next';
 import { parseCookies } from 'nookies';
+import Link from 'next/link';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
 import ms from 'ms';
@@ -14,11 +15,10 @@ import {
 
 import { Album as AlbumType, Track } from '~/types';
 import { ShuffleModeSongs, redirect, getHost, fetchMusic } from '~/utils';
-import Link from 'next/link';
 
 const AlbumPage = styled.div`
   max-width: 520px;
-  width: 100%;
+  width: 95%;
   margin: 0 auto;
   padding-top: 7.4rem;
 
@@ -42,8 +42,8 @@ const AlbumPage = styled.div`
 
     img {
       display: block;
-      width: 150px;
-      height: 150px;
+      width: 100px;
+      height: 100px;
       object-fit: contain;
       margin-right: 1rem;
       border-radius: 0.8vw;
@@ -59,6 +59,8 @@ const AlbumPage = styled.div`
       font-size: 1.6rem;
       display: flex;
       align-items: center;
+      border-top: 1px solid #aaa;
+      border-bottom: 1px solid #aaa;
 
       button {
         border: none;
@@ -84,6 +86,7 @@ const AlbumPage = styled.div`
   .metadata {
     font-size: 1.6rem;
     color: #898a8e;
+    margin-top: 0.5rem;
   }
 `;
 
@@ -145,42 +148,45 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
         />
         <div>
           <h1>{album.data.attributes.name}</h1>
-          <h2 style={{ color: '#e94b63' }}>
-            {album.data.attributes.artistName}
-          </h2>
-          <div
-            css={`
-              margin-top: 2rem;
-
-              button {
-                background: #f1f2f6;
-                border: none;
-                padding: 0.5rem 2rem;
-                margin: 0;
-                color: #e94b63;
-                border-radius: 4px;
-                line-height: 1;
-                cursor: pointer;
-                &:first-of-type {
-                  margin-right: 1rem;
-                }
-
-                svg {
-                  width: 1.25rem !important;
-                  height: 1.25rem !important;
-                }
-              }
-            `}
-          >
-            <button type="button" onClick={playAlbum}>
-              <FontAwesomeIcon icon={faPlay} /> Play
-            </button>
-            <button type="button" onClick={playShuffledAlbum}>
-              <FontAwesomeIcon icon={faRandom} /> Shuffle
-            </button>
-          </div>
+          <h2 css={{ color: '#e94b63' }}>{album.data.attributes.artistName}</h2>
         </div>
       </header>
+      <div
+        css={`
+          padding-top: 1rem;
+          margin-top: 1rem;
+          margin-bottom: 1rem;
+          border-top: 1px solid #aaa;
+          display: flex;
+
+          button {
+            width: 50%;
+            background: #f1f2f6;
+            border: none;
+            padding: 0.5rem 2rem;
+            margin: 0;
+            color: #e94b63;
+            border-radius: 4px;
+            line-height: 1;
+            cursor: pointer;
+
+            &:first-of-type {
+              margin-right: 1rem;
+            }
+
+            svg {
+              font-size: 1.2rem;
+            }
+          }
+        `}
+      >
+        <button type="button" onClick={playAlbum}>
+          <FontAwesomeIcon icon={faPlay} /> Play
+        </button>
+        <button type="button" onClick={playShuffledAlbum}>
+          <FontAwesomeIcon icon={faRandom} /> Shuffle
+        </button>
+      </div>
       <ol>
         {album.data.relationships.tracks.data.map((track: any) => (
           <li key={track.id} data-track={track.attributes.trackNumber}>

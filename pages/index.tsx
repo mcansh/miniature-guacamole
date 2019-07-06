@@ -71,7 +71,7 @@ const Index = ({
           margin: 0 auto;
           list-style: none;
           max-width: 700px;
-          width: 100%;
+          width: 95%;
 
           a {
             font-size: 1.6rem;
