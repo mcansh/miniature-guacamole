@@ -24,6 +24,14 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
   }
 
+  input,
+  textarea,
+  keygen,
+  select,
+  button {
+    font-size: inherit;
+  }
+
   h1,
   h2,
   h3,
