@@ -83,7 +83,7 @@ const Index = ({
         {recentlyAdded.data.map(item => (
           <li key={item.id}>
             <div>
-              <Link href="/albums/$id" as={`/albums/${item.id}`}>
+              <Link href="/albums/[id]" as={`/albums/${item.id}`}>
                 <a>
                   <SimpleImg
                     height="100%"
