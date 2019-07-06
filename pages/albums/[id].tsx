@@ -6,6 +6,8 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import fetch from 'isomorphic-unfetch';
 import ms from 'ms';
+// @ts-ignore
+import { SimpleImg } from 'react-simple-img';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlay,
@@ -14,7 +16,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { Album as AlbumType, Track } from '~/types';
-import { ShuffleModeSongs, redirect, getHost, fetchMusic } from '~/utils';
+import {
+  ShuffleModeSongs,
+  redirect,
+  getHost,
+  fetchMusic,
+  artworkForMediaItem,
+} from '~/utils';
 
 const AlbumPage = styled.div`
   max-width: 520px;
@@ -42,15 +50,6 @@ const AlbumPage = styled.div`
 
   header {
     display: flex;
-
-    img {
-      display: block;
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      margin-right: 1rem;
-      border-radius: 0.8vw;
-    }
   }
 
   ol {
@@ -145,9 +144,33 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
         </Link>
       </nav>
       <header>
-        <img
+        <SimpleImg
+          height="100px"
+          width="100px"
+          imgStyle={{
+            display: 'block',
+            objectFit: 'contain',
+            marginRight: '1rem',
+            borderRadius: '0.8vw',
+          }}
+          placeholder={artworkForMediaItem(undefined, 100)}
           src={album.data.attributes.artwork.url.replace(/{w}|{h}/g, '600')}
           alt={album.data.attributes.name}
+          srcSet={`
+            ${artworkForMediaItem(album.data, 50)} 50w,
+            ${artworkForMediaItem(album.data, 100)} 100w,
+            ${artworkForMediaItem(album.data, 200)} 200w,
+            ${artworkForMediaItem(album.data, 300)} 300w,
+            ${artworkForMediaItem(album.data, 600)} 600w,
+            ${artworkForMediaItem(album.data, 800)} 800w,
+            ${artworkForMediaItem(album.data, 1200)} 1200w,
+            ${artworkForMediaItem(album.data, 1600)} 1600w,
+            ${artworkForMediaItem(album.data, 1800)} 1800w,
+            ${artworkForMediaItem(album.data, 2000)} 2000w,
+            ${artworkForMediaItem(album.data, 2400)} 2400w,
+            ${artworkForMediaItem(album.data, 3000)} 3000w,
+          `}
+          sizes="(max-width: 3000px) 100vw, 3000px"
         />
         <div>
           <h1>{album.data.attributes.name}</h1>
