@@ -1,9 +1,3 @@
-# create-nextjs-app
+# miniature-guacamole
 
-Quickly start a new nextjs project
-
-## Usage
-
-1. Click that fun ['Use this template'](https://github.com/mcansh/create-nextjs-app/generate) by the clone button
-2. Update package.json and manifest file
-3. Build awesome shit
+an Apple Music web player built with Next.js and MusicKit
