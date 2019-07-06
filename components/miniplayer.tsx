@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faForward, faPlay } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
-import { ellipsis } from 'polished';
+import { ellipsis, rgba } from 'polished';
 import { artworkForMediaItem } from '~/utils';
 
 const MiniPlayerStyles = styled.footer`
@@ -17,6 +17,10 @@ const MiniPlayerStyles = styled.footer`
   grid-template-columns: 5.5rem 1fr auto;
   align-items: center;
   grid-gap: 0 1rem;
+
+  @media (prefers-color-scheme: dark) {
+    background: ${rgba('#1a1a1a', 0.8)};
+  }
 
   img {
     width: 5.5rem;
@@ -35,6 +39,10 @@ const MiniPlayerStyles = styled.footer`
     color: black;
     border: none;
     font-size: 2rem;
+
+    @media (prefers-color-scheme: dark) {
+      color: white;
+    }
   }
 `;
 

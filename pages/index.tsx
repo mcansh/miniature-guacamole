@@ -77,6 +77,9 @@ const Index = ({
             font-size: 1.6rem;
             color: black;
             text-decoration: none;
+            @media (prefers-color-scheme: dark) {
+              color: white;
+            }
           }
         `}
       >

@@ -3,9 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
   :root {
     /* stylelint-disable-next-line property-no-unknown */
-    /* color-scheme: light dark; */
-    /* stylelint-disable-next-line property-no-unknown */
-    color-scheme: light;
+    color-scheme: light dark;
   }
 
   html {
@@ -22,6 +20,10 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: ${props => props.theme.fontStack};
     font-weight: 400;
+    background: white;
+    @media (prefers-color-scheme: dark) {
+      background: black;
+    }
   }
 
   input,

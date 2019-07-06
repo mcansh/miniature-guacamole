@@ -1,5 +1,5 @@
 import React from 'react';
-import { ellipsis } from 'polished';
+import { ellipsis, rgba } from 'polished';
 import { NextPage } from 'next';
 import { parseCookies } from 'nookies';
 import Link from 'next/link';
@@ -34,6 +34,9 @@ const AlbumPage = styled.div`
     a {
       color: #e94b63;
       text-decoration: none;
+    }
+    @media (prefers-color-scheme: dark) {
+      background: ${rgba('#1a1a1a', 0.8)};
     }
   }
 
@@ -163,12 +166,16 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
             width: 50%;
             background: #f1f2f6;
             border: none;
-            padding: 0.5rem 2rem;
+            padding: 1rem 2rem;
             margin: 0;
             color: #e94b63;
             border-radius: 4px;
             line-height: 1;
             cursor: pointer;
+
+            @media (prefers-color-scheme: dark) {
+              background: #1a1a1a;
+            }
 
             &:first-of-type {
               margin-right: 1rem;
@@ -176,6 +183,7 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
 
             svg {
               font-size: 1.2rem;
+              margin-right: 0.5rem;
             }
           }
         `}
