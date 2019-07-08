@@ -1,6 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import GlobalStyle from './styles/global-style';
 import MiniPlayer from './miniplayer';
 import theme from '~/config';
@@ -29,6 +30,8 @@ interface LayoutProps {
 }
 
 const Layout = ({ children, MusicKit }: LayoutProps) => {
+  const { pathname } = useRouter();
+
   React.useEffect(() => {
     const sw = async () => {
       if (process.env.NODE_ENV === 'production') {
@@ -92,7 +95,7 @@ const Layout = ({ children, MusicKit }: LayoutProps) => {
         </Head>
         <GlobalStyle />
         {children}
-        <MiniPlayer MusicKit={MusicKit} />
+        {pathname !== '/login' && <MiniPlayer MusicKit={MusicKit} />}
       </>
     </ThemeProvider>
   );
