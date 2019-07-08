@@ -73,6 +73,10 @@ const AlbumPage = styled.div`
         padding: 1.6rem 0;
         background: none;
         cursor: pointer;
+        color: black;
+        @media (prefers-color-scheme: dark) {
+          color: white;
+        }
       }
 
       &::before {
@@ -96,16 +100,16 @@ interface Props {
   album: AlbumType;
   developerToken: string;
   musicUserToken: string;
-  MusicKit: any;
+  musickit: typeof MusicKit;
 }
 
 // @ts-ignore
-const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
+const Album: NextPage<Props> = ({ album, musickit }: Props) => {
   const albumDuration = album.data.relationships.tracks.data.reduce(
     (acc, cur) => acc + cur.attributes.durationInMillis,
     0
   );
-  const music = MusicKit && MusicKit.getInstance();
+  const music = musickit && musickit.getInstance();
 
   const playSong = async (track: Track) => {
     if (
@@ -116,16 +120,15 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
     ) {
       console.error('no catalog id');
     }
-    await music.setQueue({
-      song: track.attributes.playParams.catalogId,
-    });
+    await music.setQueue({ items: [track.attributes.playParams.catalogId] });
     await music.play();
   };
 
   const playAlbum = async () => {
-    await album.data.relationships.tracks.data.forEach(async track => {
-      await music.setQueue({ song: track.attributes.playParams.catalogId });
-    });
+    const items = await album.data.relationships.tracks.data.map(
+      track => track.attributes.playParams.catalogId
+    );
+    await music.setQueue({ items });
     await music.play();
   };
 
