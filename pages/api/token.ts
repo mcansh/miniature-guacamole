@@ -6,8 +6,8 @@ export default async (_req: NextApiRequest, res: NextApiResponse) => {
 ${String(process.env.GUAC_AUTH_KEY)}
 -----END PRIVATE KEY-----`;
 
-  const teamId = 'ZN48NS8HAP';
-  const keyId = '238VDP8HGK';
+  const teamId = process.env.GUAC_TEAM_ID;
+  const keyId = process.env.GUAC_KEY_ID;
   const jwtToken = await jwt.sign({}, privateKey, {
     algorithm: 'ES256',
     expiresIn: '180d',
@@ -18,6 +18,6 @@ ${String(process.env.GUAC_AUTH_KEY)}
     },
   });
 
-  res.setHeader('content-type', 'application/json');
-  return res.end(JSON.stringify({ token: jwtToken }));
+  res.status(200);
+  res.json({ token: jwtToken });
 };

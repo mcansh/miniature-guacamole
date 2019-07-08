@@ -94,7 +94,7 @@ const AlbumPage = styled.div`
 
 interface Props {
   album: AlbumType;
-  token: string;
+  developerToken: string;
   musicUserToken: string;
   MusicKit: any;
 }
@@ -105,7 +105,7 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
     (acc, cur) => acc + cur.attributes.durationInMillis,
     0
   );
-  const music = MusicKit.getInstance();
+  const music = MusicKit && MusicKit.getInstance();
 
   const playSong = async (track: Track) => {
     if (
@@ -257,7 +257,7 @@ Album.getInitialProps = async context => {
   const album = await promise.json();
 
   return {
-    token,
+    developerToken: token,
     album: { data: album.data[0] },
     musicUserToken: bXVzaWMuem40OG5zOGhhcC51,
   };
