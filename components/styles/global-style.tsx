@@ -21,8 +21,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: ${props => props.theme.fontStack};
     font-weight: 400;
     background: white;
+    color: black;
     @media (prefers-color-scheme: dark) {
       background: black;
+      color: white;
     }
   }
 
