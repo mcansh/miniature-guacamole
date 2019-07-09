@@ -32,7 +32,7 @@ const AlbumPage = styled.div`
   padding-bottom: 11rem;
 
   nav {
-    background: rgba(255, 255, 255, 0.8);
+    background: white;
     backdrop-filter: blur(10px);
     position: fixed;
     top: 0;
@@ -40,12 +40,21 @@ const AlbumPage = styled.div`
     width: 100%;
     font-size: 2rem;
     padding: 2rem;
+    z-index: 1;
+    @supports (backdrop-filter: blur(0)) {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      background: #1a1a1a;
+      @supports (backdrop-filter: blur(0)) {
+        background: ${rgba('#1a1a1a', 0.8)};
+      }
+    }
+
     a {
       color: #e94b63;
       text-decoration: none;
-    }
-    @media (prefers-color-scheme: dark) {
-      background: ${rgba('#1a1a1a', 0.8)};
     }
   }
 
