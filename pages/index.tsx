@@ -113,7 +113,7 @@ const Index = ({
                 <p style={{ ...ellipsis('90%'), marginTop: '1rem' }}>
                   {item.attributes.name}
                 </p>
-                <p>{item.attributes.artistName}</p>
+                <p css={{ color: '#a1a1a1' }}>{item.attributes.artistName}</p>
               </a>
             </Link>
           </li>
