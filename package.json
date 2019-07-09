@@ -39,6 +39,7 @@
     "babel-plugin-inline-react-svg": "1.1.0",
     "babel-plugin-root-import": "6.2.0",
     "babel-plugin-styled-components": "1.10.6",
+    "body-scroll-lock": "2.6.3",
     "constate": "1.2.0",
     "isomorphic-unfetch": "3.0.0",
     "jsonwebtoken": "8.5.1",
@@ -52,12 +53,15 @@
     "react-dom": "16.8.6",
     "react-no-ssr": "1.1.0",
     "react-simple-img": "2.3.1",
+    "react-spring": "8.0.27",
+    "react-use-gesture": "5.1.2",
     "styled-components": "5.0.0-beta.3",
     "ts-optchain": "0.1.7",
     "type-fest": "0.6.0"
   },
   "devDependencies": {
     "@testing-library/react": "8.0.4",
+    "@types/body-scroll-lock": "2.6.0",
     "@types/jest": "24.0.15",
     "@types/jsonwebtoken": "8.3.2",
     "@types/ms": "0.7.30",

@@ -29,6 +29,7 @@ const AlbumPage = styled.div`
   width: 95%;
   margin: 0 auto;
   padding-top: 7.4rem;
+  padding-bottom: 11rem;
 
   nav {
     background: rgba(255, 255, 255, 0.8);
