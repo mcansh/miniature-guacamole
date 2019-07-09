@@ -120,7 +120,8 @@ const Album: NextPage<Props> = ({ album, musickit }: Props) => {
     ) {
       console.error('no catalog id');
     }
-    await music.setQueue({ items: [track.attributes.playParams.catalogId] });
+    // @ts-ignore
+    await music.setQueue({ song: track.attributes.playParams.catalogId });
     await music.play();
   };
 
@@ -128,7 +129,8 @@ const Album: NextPage<Props> = ({ album, musickit }: Props) => {
     const items = await album.data.relationships.tracks.data.map(
       track => track.attributes.playParams.catalogId
     );
-    await music.setQueue({ items });
+    // @ts-ignore
+    await music.setQueue({ songs: items });
     await music.play();
   };
 
