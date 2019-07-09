@@ -13,7 +13,7 @@ import { faPause, faForward, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { artworkForMediaItem } from '~/utils';
 
 const OPEN = 1;
-const CLOSED = 45;
+const CLOSED = 85;
 
 const MiniPlayerStyles = styled(animated.div)`
   position: fixed;
@@ -25,7 +25,7 @@ const MiniPlayerStyles = styled(animated.div)`
   background-image: linear-gradient(#1a1a1a, #000);
   padding: 2.4rem;
   user-select: none;
-  min-height: 200%;
+  min-height: 110%;
 
   .miniplayer__nub {
     position: absolute;
@@ -46,6 +46,7 @@ const MiniPlayerStyles = styled(animated.div)`
     width: 500px;
     max-width: 100%;
     margin: 0 auto;
+    height: 100%;
   }
 
   img,
@@ -65,7 +66,6 @@ const MiniPlayerStyles = styled(animated.div)`
 
   h1 {
     font-size: 1.6rem;
-    flex-grow: 1;
     ${ellipsis()}
   }
 
@@ -123,7 +123,7 @@ const MiniPlayer = ({ MusicKit }: { MusicKit: any }) => {
     set({
       y: yAxis > 50 ? CLOSED : OPEN,
       radius: yAxis > 50 ? 0 : 2,
-      config: config.gentle,
+      config: { ...config.default, clamp: true },
     });
   });
 
