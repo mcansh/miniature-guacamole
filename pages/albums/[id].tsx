@@ -136,11 +136,8 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
   };
 
   const playAlbum = async () => {
-    const items = await album.data.relationships.tracks.data.map(
-      track => track.attributes.playParams.catalogId
-    );
     // @ts-ignore
-    await music.setQueue({ songs: items });
+    await music.setQueue({ album: album.data.attributes.playParams.id });
     await music.play();
   };
 
