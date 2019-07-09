@@ -65,7 +65,7 @@ const Index = ({
       <ul
         css={`
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(157px, 1fr));
           grid-gap: 3rem;
           padding: 0;
           margin: 0 auto;
@@ -74,6 +74,7 @@ const Index = ({
           width: 95%;
 
           a {
+            display: block;
             font-size: 1.6rem;
             color: black;
             text-decoration: none;
@@ -85,16 +86,15 @@ const Index = ({
       >
         {recentlyAdded.data.map(item => (
           <li key={item.id}>
-            <div>
-              <Link href="/albums/[id]" as={`/albums/${item.id}`}>
-                <a>
-                  <SimpleImg
-                    height="100%"
-                    width="100%"
-                    placeholder={artworkForMediaItem(undefined, 600)}
-                    src={item.attributes.artwork.url.replace(/{w}|{h}/g, '600')}
-                    alt={item.attributes.name}
-                    srcSet={`
+            <Link href="/albums/[id]" as={`/albums/${item.id}`}>
+              <a>
+                <SimpleImg
+                  height="100%"
+                  width="100%"
+                  placeholder={artworkForMediaItem(undefined, 600)}
+                  src={item.attributes.artwork.url.replace(/{w}|{h}/g, '600')}
+                  alt={item.attributes.name}
+                  srcSet={`
                       ${artworkForMediaItem(item, 50)} 50w,
                       ${artworkForMediaItem(item, 100)} 100w,
                       ${artworkForMediaItem(item, 200)} 200w,
@@ -108,15 +108,14 @@ const Index = ({
                       ${artworkForMediaItem(item, 2400)} 2400w,
                       ${artworkForMediaItem(item, 3000)} 3000w,
                     `}
-                    sizes="(max-width: 3000px) 100vw, 3000px"
-                  />
-                  <p style={{ ...ellipsis('90%'), marginTop: '1rem' }}>
-                    {item.attributes.name}
-                  </p>
-                  <p>{item.attributes.artistName}</p>
-                </a>
-              </Link>
-            </div>
+                  sizes="(max-width: 3000px) 100vw, 3000px"
+                />
+                <p style={{ ...ellipsis('90%'), marginTop: '1rem' }}>
+                  {item.attributes.name}
+                </p>
+                <p>{item.attributes.artistName}</p>
+              </a>
+            </Link>
           </li>
         ))}
       </ul>
