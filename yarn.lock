@@ -6593,11 +6593,6 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   integrity sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
 
-musickit-typescript@1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/musickit-typescript/-/musickit-typescript-1.2.4.tgz#d055117e2c897c4ebc570f0d969ad31649744837"
-  integrity sha512-3+/20Pi2zOVAHfUFf631LU2NwaC/qEHBBksM+YQzQ/fff4tIMPX5WJ6We/WXmwTHkAkHIOEitJW4cRPnvVAq+A==
-
 mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"

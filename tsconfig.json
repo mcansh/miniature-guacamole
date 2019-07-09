@@ -29,11 +29,7 @@
       "~/*": [
         "./*"
       ]
-    },
-    "typeRoots": [
-      "node_modules/musickit-typescript",
-      "node_modules/@types"
-    ]
+    }
   },
   "exclude": [],
   "include": [

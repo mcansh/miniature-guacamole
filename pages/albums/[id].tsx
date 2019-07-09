@@ -101,16 +101,16 @@ interface Props {
   album: AlbumType;
   developerToken: string;
   musicUserToken: string;
-  musickit: typeof MusicKit;
+  MusicKit: any;
 }
 
 // @ts-ignore
-const Album: NextPage<Props> = ({ album, musickit }: Props) => {
+const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
   const albumDuration = album.data.relationships.tracks.data.reduce(
     (acc, cur) => acc + cur.attributes.durationInMillis,
     0
   );
-  const music = musickit && musickit.getInstance();
+  const music = MusicKit && MusicKit.getInstance();
 
   const playSong = async (track: Track) => {
     if (
