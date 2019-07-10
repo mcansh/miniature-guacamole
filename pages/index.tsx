@@ -68,7 +68,7 @@ const Index = ({
           grid-template-columns: repeat(auto-fill, minmax(157px, 1fr));
           grid-gap: 3rem;
           padding: 0;
-          margin: 0 auto;
+          margin: 3rem auto 0;
           list-style: none;
           max-width: 700px;
           width: 95%;
@@ -94,6 +94,7 @@ const Index = ({
                   placeholder={artworkForMediaItem(undefined, 600)}
                   src={item.attributes.artwork.url.replace(/{w}|{h}/g, '600')}
                   alt={item.attributes.name}
+                  imgStyle={{ borderRadius: '0.8vw' }}
                   srcSet={`
                       ${artworkForMediaItem(item, 50)} 50w,
                       ${artworkForMediaItem(item, 100)} 100w,

@@ -58,6 +58,7 @@ const MiniPlayerStyles = styled(animated.div)`
   img {
     margin-bottom: 2rem;
     border-radius: 0.8vw;
+    pointer-events: none;
   }
 
   .miniplayer__artist-name {
