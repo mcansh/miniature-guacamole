@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faForward, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { artworkForMediaItem } from '~/utils';
 
-const OPEN = 1;
+const OPEN = 3;
 const CLOSED = 85;
 
 const MiniPlayerStyles = styled(animated.div)`
@@ -82,7 +82,15 @@ const MiniPlayerStyles = styled(animated.div)`
   }
 `;
 
-const MiniPlayer = ({ MusicKit }: { MusicKit: any }) => {
+const MiniPlayer = ({
+  MusicKit,
+  // miniplayerOpen,
+  setMiniplayerOpen,
+}: {
+  MusicKit: any;
+  setMiniplayerOpen: (open: boolean) => void;
+  miniplayerOpen: boolean;
+}) => {
   const music = MusicKit && MusicKit.getInstance();
   const [nowPlayingItem, setNowPlayingItem] = React.useState({
     artworkURL: artworkForMediaItem(undefined, 600),
@@ -117,8 +125,10 @@ const MiniPlayer = ({ MusicKit }: { MusicKit: any }) => {
   }));
   const bind = useGesture(({ delta: [, yAxis] }) => {
     if (yAxis > 0) {
+      setMiniplayerOpen(false);
       enableBodyScroll(document.body);
     } else {
+      setMiniplayerOpen(true);
       disableBodyScroll(document.body);
     }
     set({
@@ -141,36 +151,38 @@ const MiniPlayer = ({ MusicKit }: { MusicKit: any }) => {
     >
       <div className="miniplayer__nub" />
       <div className="miniplayer__content">
-        <img
-          src={nowPlayingItem.artworkURL}
-          alt={nowPlayingItem.attributes.name}
-        />
-        <h1 className="miniplayer__track-name">
-          {nowPlayingItem.attributes.name}
-        </h1>
-        <h2 className="miniplayer__artist-name">
-          {nowPlayingItem.attributes.artistName}
-        </h2>
-        <div>
-          <button
-            type="button"
-            disabled={nowPlayingItem.attributes.name === 'Not Playing'}
-            onClick={async () =>
-              player && player.isPlaying ? music.pause() : music.play()
-            }
-          >
-            <FontAwesomeIcon
-              icon={player && player.isPlaying ? faPause : faPlay}
-            />
-          </button>
-          <button
-            type="button"
-            disabled={nowPlayingItem.attributes.name === 'Not Playing'}
-            onClick={async () => player && player.skipToNextItem()}
-          >
-            <FontAwesomeIcon icon={faForward} />
-          </button>
-        </div>
+        <>
+          <img
+            src={nowPlayingItem.artworkURL}
+            alt={nowPlayingItem.attributes.name}
+          />
+          <h1 className="miniplayer__track-name">
+            {nowPlayingItem.attributes.name}
+          </h1>
+          <h2 className="miniplayer__artist-name">
+            {nowPlayingItem.attributes.artistName}
+          </h2>
+          <div>
+            <button
+              type="button"
+              disabled={nowPlayingItem.attributes.name === 'Not Playing'}
+              onClick={async () =>
+                player && player.isPlaying ? music.pause() : music.play()
+              }
+            >
+              <FontAwesomeIcon
+                icon={player && player.isPlaying ? faPause : faPlay}
+              />
+            </button>
+            <button
+              type="button"
+              disabled={nowPlayingItem.attributes.name === 'Not Playing'}
+              onClick={async () => player && player.skipToNextItem()}
+            >
+              <FontAwesomeIcon icon={faForward} />
+            </button>
+          </div>
+        </>
       </div>
     </MiniPlayerStyles>
   );

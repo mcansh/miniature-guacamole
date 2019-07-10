@@ -7,8 +7,10 @@
   "author": "Logan McAnsh <logan@mcan.sh> (https://mcan.sh)",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": ">=10.x"
+  },
   "scripts": {
-    "dev": "now dev -p 4000",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
@@ -34,6 +36,7 @@
     "@fortawesome/fontawesome-svg-core": "1.2.19",
     "@fortawesome/free-solid-svg-icons": "5.9.0",
     "@fortawesome/react-fontawesome": "0.1.4",
+    "@reach/portal": "0.2.1",
     "@sentry/browser": "5.5.0",
     "@zeit/next-source-maps": "0.0.4-canary.1",
     "babel-plugin-inline-react-svg": "1.1.0",

@@ -2,6 +2,8 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Portal from '@reach/portal';
+import { useSpring, animated } from 'react-spring';
 import GlobalStyle from './styles/global-style';
 import MiniPlayer from './miniplayer';
 import theme from '~/config';
@@ -31,6 +33,11 @@ interface LayoutProps {
 
 const Layout = ({ children, MusicKit }: LayoutProps) => {
   const { pathname } = useRouter();
+  const [miniplayerOpen, setMiniplayerOpen] = React.useState(false);
+
+  const zoom = useSpring({
+    transform: `scale(${miniplayerOpen ? 0.95 : 1})`,
+  });
 
   React.useEffect(() => {
     const sw = async () => {
@@ -94,8 +101,16 @@ const Layout = ({ children, MusicKit }: LayoutProps) => {
           ))}
         </Head>
         <GlobalStyle />
-        {children}
-        {pathname !== '/login' && <MiniPlayer MusicKit={MusicKit} />}
+        <animated.div style={zoom}>{children}</animated.div>
+        {pathname !== '/login' && (
+          <Portal>
+            <MiniPlayer
+              miniplayerOpen={miniplayerOpen}
+              setMiniplayerOpen={setMiniplayerOpen}
+              MusicKit={MusicKit}
+            />
+          </Portal>
+        )}
       </>
     </ThemeProvider>
   );
