@@ -87,6 +87,15 @@ const AlbumPage = styled.div`
         @media (prefers-color-scheme: dark) {
           color: white;
         }
+
+        &:disabled {
+          color: rgba(0, 0, 0, 0.5);
+          cursor: not-allowed;
+
+          @media (prefers-color-scheme: dark) {
+            color: rgba(255, 255, 255, 0.5);
+          }
+        }
       }
 
       &::before {
@@ -233,7 +242,11 @@ const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
       <ol>
         {album.data.relationships.tracks.data.map((track: any) => (
           <li key={track.id} data-track={track.attributes.trackNumber}>
-            <button type="button" onClick={() => playSong(track)}>
+            <button
+              type="button"
+              onClick={() => playSong(track)}
+              disabled={track.attributes.playParams == null}
+            >
               {track.attributes.name}
             </button>
           </li>
