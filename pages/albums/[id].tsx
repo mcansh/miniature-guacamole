@@ -29,9 +29,10 @@ const AlbumPage = styled.div`
   width: 95%;
   margin: 0 auto;
   padding-top: 7.4rem;
+  padding-bottom: 11rem;
 
   nav {
-    background: rgba(255, 255, 255, 0.8);
+    background: white;
     backdrop-filter: blur(10px);
     position: fixed;
     top: 0;
@@ -39,12 +40,21 @@ const AlbumPage = styled.div`
     width: 100%;
     font-size: 2rem;
     padding: 2rem;
+    z-index: 1;
+    @supports (backdrop-filter: blur(0)) {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      background: #1a1a1a;
+      @supports (backdrop-filter: blur(0)) {
+        background: ${rgba('#1a1a1a', 0.8)};
+      }
+    }
+
     a {
       color: #e94b63;
       text-decoration: none;
-    }
-    @media (prefers-color-scheme: dark) {
-      background: ${rgba('#1a1a1a', 0.8)};
     }
   }
 
@@ -77,6 +87,15 @@ const AlbumPage = styled.div`
         @media (prefers-color-scheme: dark) {
           color: white;
         }
+
+        &:disabled {
+          color: rgba(0, 0, 0, 0.5);
+          cursor: not-allowed;
+
+          @media (prefers-color-scheme: dark) {
+            color: rgba(255, 255, 255, 0.5);
+          }
+        }
       }
 
       &::before {
@@ -100,16 +119,16 @@ interface Props {
   album: AlbumType;
   developerToken: string;
   musicUserToken: string;
-  musickit: typeof MusicKit;
+  MusicKit: any;
 }
 
 // @ts-ignore
-const Album: NextPage<Props> = ({ album, musickit }: Props) => {
+const Album: NextPage<Props> = ({ album, MusicKit }: Props) => {
   const albumDuration = album.data.relationships.tracks.data.reduce(
     (acc, cur) => acc + cur.attributes.durationInMillis,
     0
   );
-  const music = musickit && musickit.getInstance();
+  const music = MusicKit && MusicKit.getInstance();
 
   const playSong = async (track: Track) => {
     if (
@@ -126,11 +145,8 @@ const Album: NextPage<Props> = ({ album, musickit }: Props) => {
   };
 
   const playAlbum = async () => {
-    const items = await album.data.relationships.tracks.data.map(
-      track => track.attributes.playParams.catalogId
-    );
     // @ts-ignore
-    await music.setQueue({ songs: items });
+    await music.setQueue({ album: album.data.attributes.playParams.id });
     await music.play();
   };
 
@@ -226,7 +242,11 @@ const Album: NextPage<Props> = ({ album, musickit }: Props) => {
       <ol>
         {album.data.relationships.tracks.data.map((track: any) => (
           <li key={track.id} data-track={track.attributes.trackNumber}>
-            <button type="button" onClick={() => playSong(track)}>
+            <button
+              type="button"
+              onClick={() => playSong(track)}
+              disabled={track.attributes.playParams == null}
+            >
               {track.attributes.name}
             </button>
           </li>

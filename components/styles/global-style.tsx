@@ -12,6 +12,12 @@ const GlobalStyle = createGlobalStyle`
     text-size-adjust: 100%;
   }
 
+  html,
+  body,
+  #__next {
+    min-height: 100vh;
+  }
+
   * {
     box-sizing: inherit;
     margin: 0;
