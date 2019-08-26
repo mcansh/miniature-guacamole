@@ -41,6 +41,7 @@
     "babel-plugin-styled-components": "1.10.6",
     "constate": "1.2.0",
     "isomorphic-unfetch": "3.0.0",
+    "js-yaml": "3.13.1",
     "jsonwebtoken": "8.5.1",
     "ms": "2.1.2",
     "next": "9.0.5",
