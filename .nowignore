@@ -9,3 +9,5 @@ stylelint.config.js
 dist
 scripts
 coverage
+guac.icconsproj
+guac.sketch
