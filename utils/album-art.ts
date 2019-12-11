@@ -1,4 +1,4 @@
-import { MediaItem } from '~/types';
+import { MediaItem } from "~/@types";
 
 function artworkForMediaItem(item: MediaItem | undefined, size: number) {
   if (!item) {

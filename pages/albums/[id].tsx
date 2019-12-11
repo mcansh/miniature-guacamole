@@ -1,28 +1,27 @@
-import React from 'react';
-import { ellipsis, rgba } from 'polished';
-import { NextPage } from 'next';
-import { parseCookies } from 'nookies';
-import Link from 'next/link';
-import styled from 'styled-components';
-import fetch from 'isomorphic-unfetch';
-import ms from 'ms';
-// @ts-ignore
-import { SimpleImg } from 'react-simple-img';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import { ellipsis, rgba } from "polished";
+import { NextPage } from "next";
+import { parseCookies } from "nookies";
+import Link from "next/link";
+import styled from "styled-components";
+import fetch from "isomorphic-unfetch";
+import ms from "ms";
+import { SimpleImg } from "react-simple-img";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
   faRandom,
-  faChevronLeft,
-} from '@fortawesome/free-solid-svg-icons';
+  faChevronLeft
+} from "@fortawesome/free-solid-svg-icons";
 
-import { Album as AlbumType, Track } from '~/types';
+import { Album as AlbumType, Track } from "~/@types";
 import {
   ShuffleModeSongs,
   redirect,
   getHost,
   fetchMusic,
-  artworkForMediaItem,
-} from '~/utils';
+  artworkForMediaItem
+} from "~/utils";
 
 const AlbumPage = styled.div`
   max-width: 520px;
@@ -44,7 +43,7 @@ const AlbumPage = styled.div`
       text-decoration: none;
     }
     @media (prefers-color-scheme: dark) {
-      background: ${rgba('#1a1a1a', 0.8)};
+      background: ${rgba("#1a1a1a", 0.8)};
     }
   }
 
@@ -66,7 +65,7 @@ const AlbumPage = styled.div`
 
       button {
         border: none;
-        ${ellipsis('90%')};
+        ${ellipsis("90%")};
         display: flex;
         align-items: center;
         flex-grow: 1;
@@ -118,7 +117,7 @@ const Album: NextPage<Props> = ({ album, musickit }: Props) => {
       !track.attributes.playParams ||
       !track.attributes.playParams.catalogId
     ) {
-      console.error('no catalog id');
+      console.error("no catalog id");
     }
     // @ts-ignore
     await music.setQueue({ song: track.attributes.playParams.catalogId });
@@ -144,7 +143,7 @@ const Album: NextPage<Props> = ({ album, musickit }: Props) => {
       <nav>
         <Link href="/">
           <a>
-            <FontAwesomeIcon icon={faChevronLeft}></FontAwesomeIcon> Library
+            <FontAwesomeIcon icon={faChevronLeft} /> Library
           </a>
         </Link>
       </nav>
@@ -153,13 +152,13 @@ const Album: NextPage<Props> = ({ album, musickit }: Props) => {
           height="100px"
           width="100px"
           imgStyle={{
-            display: 'block',
-            objectFit: 'contain',
-            marginRight: '1rem',
-            borderRadius: '0.8vw',
+            display: "block",
+            objectFit: "contain",
+            marginRight: "1rem",
+            borderRadius: "0.8vw"
           }}
           placeholder={artworkForMediaItem(undefined, 100)}
-          src={album.data.attributes.artwork.url.replace(/{w}|{h}/g, '600')}
+          src={album.data.attributes.artwork.url.replace(/{w}|{h}/g, "600")}
           alt={album.data.attributes.name}
           srcSet={`
             ${artworkForMediaItem(album.data, 50)} 50w,
@@ -179,7 +178,7 @@ const Album: NextPage<Props> = ({ album, musickit }: Props) => {
         />
         <div>
           <h1>{album.data.attributes.name}</h1>
-          <h2 css={{ color: '#e94b63' }}>{album.data.attributes.artistName}</h2>
+          <h2 css={{ color: "#e94b63" }}>{album.data.attributes.artistName}</h2>
         </div>
       </header>
       <div
@@ -233,7 +232,7 @@ const Album: NextPage<Props> = ({ album, musickit }: Props) => {
         ))}
       </ol>
       <p className="metadata">
-        {album.data.attributes.trackCount} songs,{' '}
+        {album.data.attributes.trackCount} songs,{" "}
         {ms(albumDuration, { long: true })}
       </p>
     </AlbumPage>
@@ -250,7 +249,7 @@ Album.getInitialProps = async context => {
   const { bXVzaWMuem40OG5zOGhhcC51 } = parseCookies(context);
 
   if (!bXVzaWMuem40OG5zOGhhcC51) {
-    redirect(context.res, 302, '/login');
+    redirect(context.res, 302, "/login");
   }
 
   const promise = await fetchMusic(
@@ -264,7 +263,7 @@ Album.getInitialProps = async context => {
   return {
     developerToken: token,
     album: { data: album.data[0] },
-    musicUserToken: bXVzaWMuem40OG5zOGhhcC51,
+    musicUserToken: bXVzaWMuem40OG5zOGhhcC51
   };
 };
 
