@@ -143,7 +143,8 @@ const Album: NextPage<Props> = ({ album, musickit }: Props) => {
       <nav>
         <Link href="/">
           <a>
-            <FontAwesomeIcon icon={faChevronLeft} /> Library
+            <FontAwesomeIcon css={{ width: "1rem" }} icon={faChevronLeft} />{" "}
+            Library
           </a>
         </Link>
       </nav>
@@ -209,7 +210,7 @@ const Album: NextPage<Props> = ({ album, musickit }: Props) => {
             }
 
             svg {
-              font-size: 1.2rem;
+              width: 1.2rem;
               margin-right: 0.5rem;
             }
           }

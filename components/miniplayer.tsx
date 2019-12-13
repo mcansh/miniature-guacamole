@@ -1,9 +1,10 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPause, faForward, faPlay } from '@fortawesome/free-solid-svg-icons';
-import styled from 'styled-components';
-import { ellipsis, rgba } from 'polished';
-import { artworkForMediaItem } from '~/utils';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPause, faForward, faPlay } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import { ellipsis, rgba } from "polished";
+
+import { artworkForMediaItem } from "~/utils";
 
 const MiniPlayerStyles = styled.footer`
   width: 100%;
@@ -19,7 +20,7 @@ const MiniPlayerStyles = styled.footer`
   grid-gap: 0 1rem;
 
   @media (prefers-color-scheme: dark) {
-    background: ${rgba('#1a1a1a', 0.8)};
+    background: ${rgba("#1a1a1a", 0.8)};
   }
 
   img {
@@ -54,9 +55,9 @@ const MiniPlayer = ({ MusicKit }: { MusicKit: any }) => {
       : {
           nowPlayingItem: {
             artworkURL: artworkForMediaItem(undefined, 100),
-            attributes: { name: 'Not Playing' },
+            attributes: { name: "Not Playing" }
           },
-          player: { isPlaying: false },
+          player: { isPlaying: false }
         };
 
   const playbackStateDidChange = (data: any) => {
@@ -75,7 +76,6 @@ const MiniPlayer = ({ MusicKit }: { MusicKit: any }) => {
           playbackStateDidChange
         );
     }
-    return () => {};
   });
 
   return (
@@ -88,8 +88,8 @@ const MiniPlayer = ({ MusicKit }: { MusicKit: any }) => {
       <div>
         <button
           type="button"
-          disabled={player.nowPlayingItem.attributes.name === 'Not Playing'}
-          onClick={async () =>
+          disabled={player.nowPlayingItem.attributes.name === "Not Playing"}
+          onClick={() =>
             player.isPlaying ? music.pause() : music.play()
           }
         >
@@ -97,7 +97,7 @@ const MiniPlayer = ({ MusicKit }: { MusicKit: any }) => {
         </button>
         <button
           type="button"
-          disabled={player.nowPlayingItem.attributes.name === 'Not Playing'}
+          disabled={player.nowPlayingItem.attributes.name === "Not Playing"}
         >
           <FontAwesomeIcon icon={faForward} />
         </button>

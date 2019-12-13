@@ -1,10 +1,11 @@
-import React from 'react';
-import fetch from 'isomorphic-unfetch';
-import styled from 'styled-components';
-import { NextPage } from 'next';
-import { parseCookies } from 'nookies';
-import { redirect, getHost } from '~/utils';
-import Button from '~/components/styles/button';
+import React from "react";
+import fetch from "isomorphic-unfetch";
+import styled from "styled-components";
+import { NextPage } from "next";
+import { parseCookies } from "nookies";
+
+import { redirect, getHost } from "~/utils";
+import Button from "~/components/styles/button";
 
 const Page = styled.div`
   height: 100vh;
@@ -28,22 +29,17 @@ const Page = styled.div`
   }
 `;
 
-interface LoginProps {
-  MusicKit: any;
-}
-
-// @ts-ignore
-const Login: NextPage<LoginProps> = ({ MusicKit }: LoginProps) => {
+const Login: NextPage = () => {
   const authorize = async () => {
-    const music = MusicKit.getInstance();
+    const music = window.MusicKit.getInstance();
     await music.authorize();
-    redirect(undefined, 302, '/');
+    redirect(undefined, 302, "/");
   };
 
   return (
     <Page>
       <h1>
-        Miniature Guacamole{' '}
+        Miniature Guacamole{" "}
         <span role="img" aria-label="avocado">
           🥑
         </span>
@@ -56,11 +52,10 @@ const Login: NextPage<LoginProps> = ({ MusicKit }: LoginProps) => {
   );
 };
 
-// @ts-ignore
 Login.getInitialProps = async context => {
   const { bXVzaWMuem40OG5zOGhhcC51 } = parseCookies(context);
   if (bXVzaWMuem40OG5zOGhhcC51) {
-    redirect(context.res, 302, '/');
+    redirect(context.res, 302, "/");
   }
   const host = getHost(context.req);
   const url = `${host}/token`;

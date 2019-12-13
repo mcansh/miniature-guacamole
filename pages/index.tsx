@@ -1,13 +1,13 @@
-import React from 'react';
-import Link from 'next/link';
-import { parseCookies } from 'nookies';
-import { NextPageContext } from 'next';
+import React from "react";
+import Link from "next/link";
+import { parseCookies } from "nookies";
+import { NextPageContext } from "next";
 // @ts-ignore
-import { SimpleImg } from 'react-simple-img';
-import { ellipsis } from 'polished';
+import { SimpleImg } from "react-simple-img";
+import { ellipsis } from "polished";
 
-import Button from '~/components/styles/button';
-import { artworkForMediaItem, getHost, redirect, fetchMusic } from '~/utils';
+import Button from "~/components/styles/button";
+import { artworkForMediaItem, getHost, redirect, fetchMusic } from "~/utils";
 
 interface RecentlyAddedItem {
   id: string;
@@ -39,14 +39,14 @@ interface Props {
 const Index = ({
   developerToken,
   musicUserToken,
-  recentlyAddedFromServer,
+  recentlyAddedFromServer
 }: Props) => {
   const [recentlyAdded, setRecentlyAdded] = React.useState<{
     data: RecentlyAddedItem[];
     next: string;
   }>(() => {
     if (recentlyAddedFromServer) return recentlyAddedFromServer;
-    return { data: [], next: '/v1/me/library/recently-added?offset=0' };
+    return { data: [], next: "/v1/me/library/recently-added?offset=0" };
   });
 
   const loadMore = async (nextUrl: string) => {
@@ -56,7 +56,7 @@ const Index = ({
 
     setRecentlyAdded(old => ({
       data: [...old.data, ...items.data],
-      next: items.next,
+      next: items.next
     }));
   };
 
@@ -92,7 +92,10 @@ const Index = ({
                     height="100%"
                     width="100%"
                     placeholder={artworkForMediaItem(undefined, 600)}
-                    src={item.attributes.artwork.url.replace(/{w}|{h}/g, '600')}
+                    src={item?.attributes?.artwork?.url.replace(
+                      /{w}|{h}/g,
+                      "600"
+                    )}
                     alt={item.attributes.name}
                     srcSet={`
                       ${artworkForMediaItem(item, 50)} 50w,
@@ -110,7 +113,7 @@ const Index = ({
                     `}
                     sizes="(max-width: 3000px) 100vw, 3000px"
                   />
-                  <p style={{ ...ellipsis('90%'), marginTop: '1rem' }}>
+                  <p style={{ ...ellipsis("90%"), marginTop: "1rem" }}>
                     {item.attributes.name}
                   </p>
                   <p>{item.attributes.artistName}</p>
@@ -143,14 +146,14 @@ Index.getInitialProps = async (context: NextPageContext) => {
   const { bXVzaWMuem40OG5zOGhhcC51 } = parseCookies(context);
 
   if (!bXVzaWMuem40OG5zOGhhcC51) {
-    return redirect(context.res, 302, '/login');
+    return redirect(context.res, 302, "/login");
   }
 
   // 3. fetch the most recent 30 added things
   const offsets = [
-    '/v1/me/library/recently-added',
-    '/v1/me/library/recently-added?offset=10',
-    '/v1/me/library/recently-added?offset=20',
+    "/v1/me/library/recently-added",
+    "/v1/me/library/recently-added?offset=10",
+    "/v1/me/library/recently-added?offset=20"
   ];
 
   const musicPromises = await Promise.all(
@@ -163,15 +166,15 @@ Index.getInitialProps = async (context: NextPageContext) => {
   const recentlyAddedFromServer = musicPromises.reduce(
     (acc, cur) => ({
       data: [...acc.data, ...cur.data],
-      next: cur.next,
+      next: cur.next
     }),
-    { data: [], next: '/v1/me/library/recently-added?offset=30' }
+    { data: [], next: "/v1/me/library/recently-added?offset=30" }
   );
 
   return {
     developerToken: token,
     recentlyAddedFromServer,
-    musicUserToken: bXVzaWMuem40OG5zOGhhcC51,
+    musicUserToken: bXVzaWMuem40OG5zOGhhcC51
   };
 };
 
