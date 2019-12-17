@@ -1,10 +1,11 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+
 import GlobalStyle from './styles/global-style';
-import MiniPlayer from './miniplayer';
+
 import theme from '~/config';
+import { useServiceWorker } from '~/hooks/use-sw';
 
 const icons = [
   512,
@@ -24,29 +25,8 @@ const icons = [
   16,
 ];
 
-interface LayoutProps {
-  children: React.ReactNode;
-  MusicKit: any;
-}
-
-const Layout = ({ children, MusicKit }: LayoutProps) => {
-  const { pathname } = useRouter();
-
-  React.useEffect(() => {
-    const sw = async () => {
-      if (process.env.NODE_ENV === 'production') {
-        if ('serviceWorker' in navigator) {
-          try {
-            await navigator.serviceWorker.register('/sw.js');
-            console.log('Service Worker registered successfully');
-          } catch (error) {
-            console.warn('Service Worker failed to register');
-          }
-        }
-      }
-    };
-    sw();
-  }, []);
+const Layout: React.FC = ({ children }) => {
+  useServiceWorker();
 
   return (
     <ThemeProvider theme={theme}>
@@ -61,7 +41,7 @@ const Layout = ({ children, MusicKit }: LayoutProps) => {
           <meta charSet="utf-8" />
           <link rel="shortcut icon" href="/favicon.ico" />
           <link rel="manifest" href="/manifest.webmanifest" />
-          <meta name="theme-color" content="#6c16c7" />
+          <meta name="theme-color" content="#e94b63" />
           <meta
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
@@ -69,7 +49,7 @@ const Layout = ({ children, MusicKit }: LayoutProps) => {
           {/* Touch icon for iOS 2.0+ and Android 2.1+ */}
           <link rel="apple-touch-icon-precomposed" href="/favicon.png" />
           {/* E 10 Metro tile icon (Metro equivalent of apple-touch-icon) */}
-          <meta name="msapplication-TileColor" content="#7d69fc" />
+          <meta name="msapplication-TileColor" content="#e94b63" />
           <meta name="msapplication-TileImage" content="/favicon.png" />
           {/* IE 11 Tile for Windows 8.1 Start Screen */}
           <meta name="application-name" content="Miniature Guacamole 🥑" />
@@ -95,7 +75,6 @@ const Layout = ({ children, MusicKit }: LayoutProps) => {
         </Head>
         <GlobalStyle />
         {children}
-        {pathname !== '/login' && <MiniPlayer MusicKit={MusicKit} />}
       </>
     </ThemeProvider>
   );

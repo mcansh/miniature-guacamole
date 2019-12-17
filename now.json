@@ -1,14 +1,11 @@
 {
   "name": "miniature-gaucamole",
   "version": 2,
-  "alias": [
-    "guac.loganmcansh.com"
-  ],
+  "alias": ["guac.loganmcansh.com"],
   "env": {
     "GUAC_AUTH_KEY": "@guac_auth_key",
     "GUAC_TEAM_ID": "@guac_team_id",
-    "GUAC_KEY_ID": "@guac_key_id",
-    "SENTRY": "https://9ce1145ae4fa40a1bfc13806d273566d@sentry.io/1481617"
+    "GUAC_KEY_ID": "@guac_key_id"
   },
   "builds": [
     {

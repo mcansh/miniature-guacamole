@@ -2,9 +2,9 @@
   "name": "Miniature Guacamole 🥑",
   "short_name": "Guac",
   "description": "An Apple Music web player",
-  "background_color": "#7d69fc",
+  "background_color": "#e94b63",
   "display": "standalone",
-  "theme_color": "#7d69fc",
+  "theme_color": "#e94b63",
   "start_url": "/?homescreen=1",
   "icons": [
     {

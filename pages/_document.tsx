@@ -4,20 +4,12 @@ import Document, {
   Main,
   NextScript,
   DocumentContext,
+  Html,
 } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
-import * as Sentry from '@sentry/browser';
-
-process.on('unhandledRejection', err => {
-  Sentry.captureException(err);
-});
-
-process.on('uncaughtException', err => {
-  Sentry.captureException(err);
-});
 
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext) {
+  public static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
 
@@ -40,15 +32,15 @@ export default class MyDocument extends Document {
     }
   }
 
-  render() {
+  public render() {
     return (
-      <html lang="en">
-        <Head>{this.props.styles}</Head>
+      <Html lang="en">
+        <Head />
         <body>
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }

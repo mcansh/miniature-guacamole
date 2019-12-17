@@ -1,11 +1,11 @@
-import React from "react";
-import fetch from "isomorphic-unfetch";
-import styled from "styled-components";
-import { NextPage } from "next";
-import { parseCookies } from "nookies";
+import React from 'react';
+import fetch from 'isomorphic-unfetch';
+import styled from 'styled-components';
+import { NextPage } from 'next';
+import Router from 'next/router';
 
-import { redirect, getHost } from "~/utils";
-import Button from "~/components/styles/button";
+import { redirect } from '~/utils';
+import Button from '~/components/styles/button';
 
 const Page = styled.div`
   height: 100vh;
@@ -33,13 +33,13 @@ const Login: NextPage = () => {
   const authorize = async () => {
     const music = window.MusicKit.getInstance();
     await music.authorize();
-    redirect(undefined, 302, "/");
+    Router.replace('/');
   };
 
   return (
     <Page>
       <h1>
-        Miniature Guacamole{" "}
+        Miniature Guacamole{' '}
         <span role="img" aria-label="avocado">
           🥑
         </span>
@@ -53,12 +53,14 @@ const Login: NextPage = () => {
 };
 
 Login.getInitialProps = async context => {
+  const { parseCookies } = await import('nookies');
+  const { getBaseURL } = await import('@mcansh/next-now-base-url');
   const { bXVzaWMuem40OG5zOGhhcC51 } = parseCookies(context);
   if (bXVzaWMuem40OG5zOGhhcC51) {
-    redirect(context.res, 302, "/");
+    redirect(context.res, 302, '/');
   }
-  const host = getHost(context.req);
-  const url = `${host}/token`;
+  const host = getBaseURL(context.req);
+  const url = `${host}/api/token`;
   const promise = await fetch(url);
   const { token } = await promise.json();
 

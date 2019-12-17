@@ -1,15 +1,8 @@
 import React from 'react';
-import App, { Container, AppContext } from 'next/app';
-import * as Sentry from '@sentry/browser';
+import App from 'next/app';
 import Head from 'next/head';
 
 import Layout from '~/components/layout';
-
-Sentry.init({
-  dsn: process.env.SENTRY,
-  environment: process.env.NODE_ENV,
-  release: `guac@${process.env.VERSION}`,
-});
 
 declare global {
   interface Window {
@@ -18,18 +11,7 @@ declare global {
 }
 
 class MyApp extends App {
-  state = { MusicKit: null };
-
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    Sentry.withScope(scope => {
-      scope.setExtras(errorInfo);
-      Sentry.captureException(error);
-    });
-
-    super.componentDidCatch(error, errorInfo);
-  }
-
-  componentDidMount = () => {
+  public componentDidMount = () => {
     window.MusicKit.configure({
       developerToken: this.props.pageProps.developerToken,
       persist: 'cookie',
@@ -39,33 +21,20 @@ class MyApp extends App {
         icon: '/favicon.png',
       },
     });
-
-    this.setState({ MusicKit: window.MusicKit });
   };
 
-  static getInitialProps = async ({ Component, ctx }: AppContext) => {
-    let pageProps = {};
-
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps };
-  };
-
-  render() {
+  public render() {
     const { Component, pageProps } = this.props;
-    const { MusicKit } = this.state;
 
     return (
-      <Container>
+      <>
         <Head>
           <script src="https://js-cdn.music.apple.com/musickit/v1/musickit.js" />
         </Head>
-        <Layout MusicKit={MusicKit}>
-          <Component {...pageProps} musickit={MusicKit} />
+        <Layout>
+          <Component {...pageProps} />
         </Layout>
-      </Container>
+      </>
     );
   }
 }

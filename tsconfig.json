@@ -5,10 +5,7 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "lib": ["dom", "es2017"],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
@@ -26,18 +23,9 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./*"
-      ]
-    },
-    "typeRoots": [
-      "node_modules/musickit-typescript",
-      "node_modules/@types"
-    ]
+      "~/*": ["./*"]
+    }
   },
   "exclude": [],
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "include": ["**/*.ts", "**/*.tsx"]
 }

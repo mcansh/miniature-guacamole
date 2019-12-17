@@ -2,12 +2,13 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   :root {
-    /* stylelint-disable-next-line property-no-unknown */
     color-scheme: light dark;
+    --primary: ${props => props.theme.primary};
+    --font-stack: ${props => props.theme.fontStack};
   }
 
   html {
-    font-size: 10px;
+    font-size: 62.5%;
     box-sizing: border-box;
     text-size-adjust: 100%;
   }
@@ -18,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: ${props => props.theme.fontStack};
+    font-family: var(--font-stack);
     font-weight: 400;
     background: white;
     color: black;
