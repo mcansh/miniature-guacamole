@@ -7,6 +7,9 @@
   "author": "Logan McAnsh <logan@mcan.sh> (https://mcan.sh)",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": ">=12.x"
+  },
   "scripts": {
     "dev": "next dev -p 4000",
     "build": "next build",

@@ -64,10 +64,10 @@ const Index = ({
       <ul
         css={`
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
           grid-gap: 3rem;
           padding: 0;
-          margin: 0 auto;
+          margin: 3rem auto;
           list-style: none;
           max-width: 700px;
           width: 95%;
@@ -93,8 +93,9 @@ const Index = ({
                     placeholder={artworkForMediaItem(undefined, 600)}
                     src={item?.attributes?.artwork?.url.replace(
                       /{w}|{h}/g,
-                      "600"
+                      "400"
                     )}
+                    applyAspectRatio
                     alt={item.attributes.name}
                     srcSet={`
                       ${artworkForMediaItem(item, 50)} 50w,
