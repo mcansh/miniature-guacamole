@@ -49,7 +49,6 @@ const AlbumListItem = ({ item }: { item: any }) => (
               ${artworkForMediaItem(item, 2400)} 2400w,
               ${artworkForMediaItem(item, 3000)} 3000w,
             `}
-            sizes="(max-width: 3000px) 100vw, 3000px"
           />
           <p style={{ ...ellipsis('90%'), marginTop: '1rem' }}>
             {item.attributes.name}
