@@ -5,5 +5,4 @@ node_modules
 AuthKey.p8
 dist
 .env
-next-env.d.ts
 coverage
