@@ -1,12 +1,18 @@
-// import original module declaration
-import 'styled-components';
-import theme from '~/config';
+/* eslint-disable @typescript-eslint/no-empty-interface, no-duplicate-imports, import/no-duplicates */
 
-type ThemeInterface = typeof theme;
+// Strongly type the styled-components theme
+import {} from "styled-components";
+import { CSSProp } from "styled-components";
 
-// and extend it
-declare module 'styled-components' {
-  export interface DefaultTheme extends ThemeInterface {
-    [key: string]: string;
+import theme from "~/config";
+
+declare module "react" {
+  interface Attributes {
+    css?: CSSProp | CSSObject;
   }
+}
+
+declare module "styled-components" {
+  type Theme = typeof theme;
+  export interface DefaultTheme extends Theme {}
 }

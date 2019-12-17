@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { NextPageContext } from "next";
-// @ts-ignore
 import { SimpleImg } from "react-simple-img";
 import { ellipsis } from "polished";
 
@@ -143,38 +142,25 @@ Index.getInitialProps = async (context: NextPageContext) => {
   const promise = await fetch(url);
   const { token } = await promise.json();
   // 2. check if the user is logged in
-  const { bXVzaWMuem40OG5zOGhhcC51 } = parseCookies(context);
+  const { bXVzaWMuem40OG5zOGhhcC51: userToken } = parseCookies(context);
 
-  if (!bXVzaWMuem40OG5zOGhhcC51) {
+  if (!userToken) {
     return redirect(context.res, 302, "/login");
   }
 
   // 3. fetch the most recent 30 added things
-  const offsets = [
-    "/v1/me/library/recently-added",
-    "/v1/me/library/recently-added?offset=10",
-    "/v1/me/library/recently-added?offset=20"
-  ];
-
-  const musicPromises = await Promise.all(
-    offsets.map(async offset =>
-      fetchMusic(offset, token, bXVzaWMuem40OG5zOGhhcC51).then(r => r.json())
-    )
+  const musicPromise = await fetchMusic(
+    "/v1/me/library/recently-added?limit=25",
+    token,
+    userToken
   );
 
-  // 4. merge all that data
-  const recentlyAddedFromServer = musicPromises.reduce(
-    (acc, cur) => ({
-      data: [...acc.data, ...cur.data],
-      next: cur.next
-    }),
-    { data: [], next: "/v1/me/library/recently-added?offset=30" }
-  );
+  const recentlyAddedFromServer = await musicPromise.json();
 
   return {
     developerToken: token,
     recentlyAddedFromServer,
-    musicUserToken: bXVzaWMuem40OG5zOGhhcC51
+    musicUserToken: userToken
   };
 };
 

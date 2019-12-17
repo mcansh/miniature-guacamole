@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-unfetch';
+import fetch from "isomorphic-unfetch";
 
 const fetchMusic = async (
   input: string,
@@ -7,24 +7,16 @@ const fetchMusic = async (
 ) => {
   const defaultHeaders = {
     Authorization: `Bearer ${devToken}`,
-    'Music-User-Token': musicUserToken,
+    "Music-User-Token": musicUserToken
   };
 
-  try {
-    const promise = await fetch(`${process.env.MUSIC}${input}`, {
-      headers: {
-        ...defaultHeaders,
-      },
-    });
-
-    if (!promise.ok) {
-      throw new Error('An error occured');
+  const promise = await fetch(`${process.env.MUSIC}${input}`, {
+    headers: {
+      ...defaultHeaders
     }
+  });
 
-    return promise;
-  } catch (error) {
-    throw new Error(error);
-  }
+  return promise;
 };
 
 export { fetchMusic };
