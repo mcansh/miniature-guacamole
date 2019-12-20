@@ -6,6 +6,7 @@ import { SimpleImg } from 'react-simple-img';
 
 import { fetchMusic, artworkForMediaItem } from '~/utils';
 import { AlbumResponse } from '~/@types/MusicKit/album';
+import { DEFAULT_ALBUM_ART } from '~/config';
 
 const generateSrcSet = (artworkURL: string | undefined, sizes: number[]) =>
   sizes.map(size => `${artworkForMediaItem(artworkURL, size)} ${size}w`).join();
@@ -49,7 +50,7 @@ const AlbumPage: NextPage<{
         <SimpleImg
           height={200}
           width={200}
-          placeholder={artworkForMediaItem(undefined, 600)}
+          placeholder={DEFAULT_ALBUM_ART}
           src={artworkForMediaItem(album.attributes?.artwork?.url, 400)}
           alt={album.attributes?.name}
           srcSet={srcSet}
