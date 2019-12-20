@@ -62,25 +62,19 @@ const AlbumPage: NextPage<{
       <div
         css={`
           margin: 2rem;
-          display: grid;
-          grid-template-columns: auto 1fr;
-          grid-gap: 2rem;
-
-          h2 {
-            color: var(--primary);
+          @media (min-width: 500px) {
+            display: grid;
+            grid-template-columns: 30rem 1fr;
+            grid-gap: 2rem;
           }
         `}
       >
         <div
           css={`
-            height: 20rem;
-            width: 20rem;
+            width: 100%;
             border-radius: 0.4rem;
-
-            @media (max-width: 500px) {
-              width: 12rem;
-              height: 12rem;
-            }
+            margin: 0 auto 2rem;
+            overflow: hidden;
           `}
         >
           <SimpleImg
@@ -96,8 +90,13 @@ const AlbumPage: NextPage<{
         <div
           css={`
             h1 {
-              font-size: 1.6rem;
-              font-weight: 500;
+              font-size: 2.4rem;
+              font-weight: 600;
+            }
+            h2 {
+              font-size: 2.4rem;
+              font-weight: 400;
+              color: var(--primary);
             }
           `}
         >
