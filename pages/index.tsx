@@ -1,12 +1,18 @@
 import React from 'react';
-import { parseCookies } from 'nookies';
-import { NextPageContext } from 'next';
+import { NextPage } from 'next';
 import Link from 'next/link';
 import { SimpleImg } from 'react-simple-img';
 import { ellipsis } from 'polished';
+import useSWR, { mutate } from 'swr';
 
 import Button from '~/components/styles/button';
-import { artworkForMediaItem, redirect, fetchMusic } from '~/utils';
+import {
+  fetchMusic,
+  redirect,
+  artworkForMediaItem,
+  Success,
+  ErrorType,
+} from '~/utils';
 
 const AlbumListItem = ({ item }: { item: any }) => (
   <li>
@@ -18,11 +24,8 @@ const AlbumListItem = ({ item }: { item: any }) => (
 
         a {
           font-size: 1.6rem;
-          color: black;
+          color: var(--primary-text-color);
           text-decoration: none;
-          @media (prefers-color-scheme: dark) {
-            color: white;
-          }
         }
       `}
     >
@@ -36,18 +39,18 @@ const AlbumListItem = ({ item }: { item: any }) => (
             applyAspectRatio
             alt={item.attributes.name}
             srcSet={`
-              ${artworkForMediaItem(item, 50)} 50w,
-              ${artworkForMediaItem(item, 100)} 100w,
-              ${artworkForMediaItem(item, 200)} 200w,
-              ${artworkForMediaItem(item, 300)} 300w,
-              ${artworkForMediaItem(item, 600)} 600w,
-              ${artworkForMediaItem(item, 800)} 800w,
-              ${artworkForMediaItem(item, 1200)} 1200w,
-              ${artworkForMediaItem(item, 1600)} 1600w,
-              ${artworkForMediaItem(item, 1800)} 1800w,
-              ${artworkForMediaItem(item, 2000)} 2000w,
-              ${artworkForMediaItem(item, 2400)} 2400w,
-              ${artworkForMediaItem(item, 3000)} 3000w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 50)} 50w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 100)} 100w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 200)} 200w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 300)} 300w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 600)} 600w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 800)} 800w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 1200)} 1200w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 1600)} 1600w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 1800)} 1800w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 2000)} 2000w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 2400)} 2400w,
+              ${artworkForMediaItem(item.attributes?.artwork?.url, 3000)} 3000w,
             `}
           />
           <p style={{ ...ellipsis('90%'), marginTop: '1rem' }}>
@@ -60,35 +63,28 @@ const AlbumListItem = ({ item }: { item: any }) => (
   </li>
 );
 
-interface Props {
-  developerToken: string;
-  recentlyAddedFromServer: { data: any[]; next: string };
-  musicUserToken: string;
+interface IndexPageProps {
+  recentlyAddedFromServer: Success | ErrorType;
+  devToken: string;
+  userToken: string;
 }
 
-const Index = ({
-  developerToken,
-  musicUserToken,
+const Index: NextPage<IndexPageProps> = ({
   recentlyAddedFromServer,
-}: Props) => {
-  const [recentlyAdded, setRecentlyAdded] = React.useState<{
-    data: any[];
-    next: string;
-  }>(() => {
-    if (recentlyAddedFromServer) return recentlyAddedFromServer;
-    return { data: [], next: '/v1/me/library/recently-added?limit=25' };
-  });
-
-  const loadMore = async (nextUrl: string) => {
-    const promise = await fetchMusic(nextUrl, developerToken, musicUserToken);
-
-    const items = await promise.json();
-
-    setRecentlyAdded(old => ({
-      data: [...old.data, ...items.data],
-      next: items.next,
-    }));
-  };
+  devToken,
+  userToken,
+}) => {
+  const { data } = useSWR(
+    () =>
+      devToken &&
+      userToken && [
+        '/v1/me/library/recently-added?limit=24',
+        devToken,
+        userToken,
+      ],
+    fetchMusic,
+    { initialData: recentlyAddedFromServer }
+  );
 
   return (
     <>
@@ -104,16 +100,34 @@ const Index = ({
           width: 95%;
         `}
       >
-        {recentlyAdded.data.map(item => (
+        {(!data || !data.data) && <pre>{JSON.stringify(data, null, 2)}</pre>}
+        {data?.data.map((item: any) => (
           <AlbumListItem key={item.id} item={item} />
         ))}
       </ul>
       <Button
         type="button"
-        onClick={() => loadMore(recentlyAdded.next)}
         css={`
           margin: 2rem auto 7rem;
         `}
+        onClick={async () => {
+          const moreMusic = await fetchMusic(
+            `/v1/me/library/recently-added?limit=24&offset=${data?.data
+              ?.length ?? 0}`,
+            devToken,
+            userToken
+          );
+          mutate(
+            ['/v1/me/library/recently-added?limit=24', devToken, userToken],
+            {
+              ...data,
+              data: moreMusic.data
+                ? [...data.data, ...moreMusic.data]
+                : data.data,
+              next: moreMusic.next,
+            }
+          );
+        }}
       >
         Load more
       </Button>
@@ -121,34 +135,35 @@ const Index = ({
   );
 };
 
-Index.getInitialProps = async (context: NextPageContext) => {
+Index.getInitialProps = async context => {
   const { getBaseURL } = await import('@mcansh/next-now-base-url');
-  // 1. fetch the jwt for apple music
+  const { parseCookies } = await import('nookies');
+
   const host = getBaseURL(context.req);
   const url = `${host}/api/token`;
   const promise = await fetch(url);
   const { token } = await promise.json();
-  // 2. check if the user is logged in
-  const { bXVzaWMuem40OG5zOGhhcC51: userToken } = parseCookies(context);
 
+  const { userToken } = parseCookies(context);
   if (!userToken) {
-    return redirect(context.res, 302, '/login');
+    redirect(context.res, 302, '/login');
   }
 
-  // 3. fetch the most recent 30 added things
-  const musicPromise = await fetchMusic(
-    '/v1/me/library/recently-added?limit=25',
-    token,
-    userToken
-  );
-
-  const recentlyAddedFromServer = await musicPromise.json();
-
-  return {
-    developerToken: token,
-    recentlyAddedFromServer,
-    musicUserToken: userToken,
-  };
+  try {
+    const recentlyAddedFromServer = await fetchMusic(
+      '/v1/me/library/recently-added?limit=24',
+      token,
+      userToken
+    );
+    return { recentlyAddedFromServer, devToken: token, userToken };
+  } catch (error) {
+    console.error(error);
+    return {
+      recentlyAddedFromServer: { data: [], next: '' },
+      userToken: '',
+      devToken: '',
+    };
+  }
 };
 
 export default Index;

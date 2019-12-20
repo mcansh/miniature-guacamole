@@ -31,8 +31,11 @@ const Page = styled.div`
 
 const Login: NextPage = () => {
   const authorize = async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     const music = window.MusicKit.getInstance();
-    await music.authorize();
+    const token = await music.authorize();
+    document.cookie = `userToken=${token}`;
     Router.replace('/');
   };
 
@@ -53,18 +56,20 @@ const Login: NextPage = () => {
 };
 
 Login.getInitialProps = async context => {
-  const { parseCookies } = await import('nookies');
   const { getBaseURL } = await import('@mcansh/next-now-base-url');
-  const { bXVzaWMuem40OG5zOGhhcC51 } = parseCookies(context);
-  if (bXVzaWMuem40OG5zOGhhcC51) {
-    redirect(context.res, 302, '/');
-  }
+  const { parseCookies } = await import('nookies');
+
   const host = getBaseURL(context.req);
   const url = `${host}/api/token`;
   const promise = await fetch(url);
   const { token } = await promise.json();
 
-  return { developerToken: token, musicUserToken: bXVzaWMuem40OG5zOGhhcC51 };
+  const { userToken } = parseCookies(context);
+  if (userToken) {
+    redirect(context.res, 302, '/');
+  }
+
+  return { devToken: token, userToken };
 };
 
 export default Login;

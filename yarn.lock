@@ -7984,11 +7984,6 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-musickit-typescript@1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/musickit-typescript/-/musickit-typescript-1.2.4.tgz#d055117e2c897c4ebc570f0d969ad31649744837"
-  integrity sha512-3+/20Pi2zOVAHfUFf631LU2NwaC/qEHBBksM+YQzQ/fff4tIMPX5WJ6We/WXmwTHkAkHIOEitJW4cRPnvVAq+A==
-
 mute-stream@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"

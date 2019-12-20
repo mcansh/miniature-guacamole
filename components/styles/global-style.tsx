@@ -2,9 +2,10 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   :root {
-    color-scheme: light dark;
+    /* color-scheme: light dark; */
     --primary: ${props => props.theme.primary};
     --font-stack: ${props => props.theme.fontStack};
+    --primary-text-color: black;
   }
 
   html {
@@ -23,10 +24,6 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     background: white;
     color: black;
-    @media (prefers-color-scheme: dark) {
-      background: black;
-      color: white;
-    }
   }
 
   input,

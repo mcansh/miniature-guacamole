@@ -1,5 +1,23 @@
 import fetch from 'isomorphic-unfetch';
 
+export type Success = {
+  data?: any[];
+  next: string;
+  errors: never;
+};
+export type ErrorType = {
+  data: never;
+  next: never;
+  errors: {
+    id: string;
+    title: string;
+    detail: string;
+    status: string;
+    code: string;
+    source: { [key: string]: string };
+  }[];
+};
+
 const fetchMusic = async (
   input: string,
   devToken: string,
@@ -12,7 +30,7 @@ const fetchMusic = async (
 
   const promise = await fetch(`${process.env.MUSIC}${input}`, { headers });
 
-  return promise;
+  return promise.json();
 };
 
 export { fetchMusic };
