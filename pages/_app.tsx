@@ -19,6 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       });
     }
   }, [pageProps.devToken]);
+
   return (
     <Layout>
       {pageProps.devToken && (
