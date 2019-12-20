@@ -47,6 +47,8 @@ const AlbumPage: NextPage<{
         `}
       >
         <SimpleImg
+          height={200}
+          width={200}
           placeholder={artworkForMediaItem(undefined, 600)}
           src={artworkForMediaItem(album.attributes?.artwork?.url, 400)}
           alt={album.attributes?.name}
