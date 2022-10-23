@@ -81,11 +81,7 @@ export async function loader({ request }: LoaderArgs) {
   let userToken = await requireUserToken(request);
   let developerToken = generateDeveloperToken();
   let recentlyAddedFromServer = await getMusic(developerToken, userToken, 25);
-  let otherMusic = new Promise((res) => {
-    setTimeout(() => {
-      res(getMusic(developerToken, userToken, 25, 25));
-    }, 4_000);
-  });
+  let otherMusic = getMusic(developerToken, userToken, 25, 25);
   return defer({ recentlyAddedFromServer, otherMusic });
 }
 
