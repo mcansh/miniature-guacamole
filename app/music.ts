@@ -55,7 +55,7 @@ export interface Album {
 
 export interface MediaItem {
   attributes: {
-    artwork: {
+    artwork?: {
       url: string;
       height: number;
       width: number;
