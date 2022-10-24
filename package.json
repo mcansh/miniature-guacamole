@@ -6,16 +6,17 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": ">=14.x"
+    "node": ">=16.x"
   },
   "scripts": {
     "dev": "run-p dev:*",
     "dev:css": "tailwindcss -o app/styles/app.css --watch",
-    "dev:remix": "remix dev",
+    "dev:remix": "remix watch",
+    "dev:server": "node server.cjs",
     "build": "run-s build:*",
     "build:css": "tailwindcss -o app/styles/app.css --minify",
     "build:remix": "remix build",
-    "start": "remix-serve build",
+    "start": "node server.cjs",
     "type-check": "tsc",
     "lint": "eslint --cache .",
     "format": "prettier --ignore-path .eslintignore --write .",
@@ -27,11 +28,10 @@
     "@fortawesome/fontawesome-svg-core": "6.1.2",
     "@fortawesome/free-solid-svg-icons": "6.1.2",
     "@fortawesome/react-fontawesome": "0.2.0",
-    "@mcansh/remix-fastify": "1.12.0",
+    "@mcansh/remix-fastify": "0.0.0-experimental-9155f10",
     "@mcansh/remix-secure-headers": "0.6.2",
     "@remix-run/node": "0.0.0-experimental-9b7f37c9a",
     "@remix-run/react": "0.0.0-experimental-9b7f37c9a",
-    "@remix-run/serve": "0.0.0-experimental-9b7f37c9a",
     "@sentry/browser": "7.16.0",
     "@yujinakayama/apple-music": "0.4.1",
     "cachified": "2.0.0",
