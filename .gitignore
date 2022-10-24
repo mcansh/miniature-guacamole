@@ -1,8 +1,12 @@
 node_modules
 *.log
 .DS_Store
-.next
 AuthKey.p8
-dist
 .env
 coverage
+/.cache
+/build
+/public/build
+.vercel
+
+app/styles/app.css
